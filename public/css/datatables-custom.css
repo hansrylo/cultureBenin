@@ -1,0 +1,317 @@
+/* Style personnalisé pour les DataTables */
+
+/* Style de base pour le conteneur principal */
+.datatable-container {
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background-color: #fff;
+}
+
+/* En-tête de la carte */
+.datatable-header {
+    background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.datatable-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+/* Styles pour les éléments DataTables */
+.dataTables_wrapper {
+    padding: 20px;
+}
+
+.dataTables_filter input {
+    border: 1px solid #d1d3e2;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin-left: 10px;
+}
+
+.dataTables_length select {
+    border: 1px solid #d1d3e2;
+    border-radius: 4px;
+    padding: 5px;
+    margin: 0 10px;
+}
+
+.dataTables_info,
+.dataTables_paginate {
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.paginate_button {
+    padding: 5px 10px;
+    margin: 0 2px;
+    border: 1px solid #d1d3e2;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.paginate_button.current {
+    background-color: #4e73df;
+    color: white !important;
+    border-color: #4e73df;
+}
+
+.paginate_button:hover:not(.disabled) {
+    background-color: #eaecf4;
+}
+
+/* Style pour la table */
+.table {
+    width: 100% !important;
+    margin-bottom: 1rem;
+    color: #6e707e;
+    border-collapse: collapse;
+}
+
+.table thead th {
+    background-color: #f8f9fc;
+    border-bottom: 2px solid #e3e6f0;
+    padding: 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    color: #4e73df;
+}
+
+.table tbody td {
+    padding: 0.75rem;
+    border-top: 1px solid #e3e6f0;
+    vertical-align: middle;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fc;
+}
+
+/* Style pour les badges */
+.badge {
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+
+.badge-success {
+    background-color: #1cc88a;
+    color: white;
+}
+
+.badge-warning {
+    background-color: #f6c23e;
+    color: #1f2d3d;
+}
+
+/* Style pour les boutons d'action */
+.btn-action {
+    background: none;
+    border: none;
+    padding: 5px 8px;
+    margin: 0 2px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-edit {
+    color: #4e73df;
+}
+
+.btn-edit:hover {
+    background-color: #eaecf4;
+}
+
+.btn-delete {
+    color: #e74a3b;
+}
+
+.btn-delete:hover {
+    background-color: #f8d7da;
+}
+
+/* Style du tableau */
+.dataTables_wrapper {
+    padding: 20px;
+    background: white;
+}
+
+.dataTables_wrapper .dataTable {
+    width: 100% !important;
+    margin: 0 !important;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* En-têtes de colonnes */
+.dataTable thead th {
+    background-color: #f8f9fc;
+    color: #4e73df;
+    font-weight: 600;
+    padding: 12px 15px;
+    border-bottom: 2px solid #e3e6f0;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+/* Cellules du tableau */
+.dataTable tbody td {
+    padding: 12px 15px;
+    vertical-align: middle;
+    border-top: 1px solid #e3e6f0;
+    color: #5a5c69;
+    transition: background-color 0.2s;
+}
+
+/* Lignes paires/impaires */
+.dataTable tbody tr:nth-child(even) {
+    background-color: #f8f9fc;
+}
+
+/* Survol des lignes */
+.dataTable tbody tr:hover {
+    background-color: #f0f4ff !important;
+}
+
+/* Pagination */
+.dataTables_paginate {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.dataTables_paginate .paginate_button {
+    padding: 5px 12px;
+    border: 1px solid #e3e6f0;
+    background: white;
+    color: #4e73df;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.dataTables_paginate .paginate_button.current,
+.dataTables_paginate .paginate_button.current:hover {
+    background: #4e73df;
+    color: white;
+    border-color: #4e73df;
+}
+
+.dataTables_paginate .paginate_button:hover {
+    background: #e9ecef;
+    color: #224abe;
+}
+
+/* Barre de recherche */
+.dataTables_filter input {
+    padding: 8px 12px;
+    border: 1px solid #d1d3e2;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    width: 250px;
+    transition: all 0.3s;
+}
+
+.dataTables_filter input:focus {
+    border-color: #bac8f3;
+    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+    outline: none;
+}
+
+/* Menu de sélection du nombre d'entrées */
+.dataTables_length select {
+    padding: 6px 10px;
+    border: 1px solid #d1d3e2;
+    border-radius: 4px;
+    margin: 0 10px;
+}
+
+/* Style pour les boutons d'action */
+.btn-action {
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: white;
+    text-decoration: none;
+    font-size: 0.85rem;
+    margin: 0 3px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+}
+
+.btn-edit {
+    background-color: #36b9cc;
+}
+
+.btn-delete {
+    background-color: #e74a3b;
+}
+
+.btn-view {
+    background-color: #1cc88a;
+}
+
+.btn-action:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Style responsive */
+@media (max-width: 768px) {
+    .datatable-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .dataTables_filter input {
+        width: 100%;
+    }
+    
+    .dataTables_wrapper .dataTable thead {
+        display: none;
+    }
+    
+    .dataTables_wrapper .dataTable tbody td {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 15px;
+        text-align: right;
+        border-bottom: 1px solid #e3e6f0;
+    }
+    
+    .dataTables_wrapper .dataTable tbody td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #4e73df;
+        margin-right: 15px;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+    }
+    
+    .dataTables_wrapper .dataTable tbody td:last-child {
+        border-bottom: 2px solid #e3e6f0;
+    }
+}
