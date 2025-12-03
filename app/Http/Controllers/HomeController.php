@@ -44,7 +44,34 @@ class HomeController extends Controller
             ->latest('date_creation')
             ->take(3)
             ->get();
+        
+        // Vérifier si le contenu est premium
+        $estPremium = $contenu->estPremium();
+        $peutAcceder = false;
+        $aAchete = false;
+        
+        if ($estPremium) {
+            $utilisateur = auth()->user();
+            
+            if ($utilisateur) {
+                // Vérifier si l'utilisateur peut accéder (auteur ou a acheté)
+                $peutAcceder = $utilisateur->peutAcceder($contenu);
+                $aAchete = $utilisateur->aAchete($contenu);
+            }
+            
+            // Si l'utilisateur ne peut pas accéder, afficher seulement l'aperçu
+            if (!$peutAcceder) {
+                $contenu->texte_apercu = $contenu->getApercu(300);
+                $contenu->texte_complet = false;
+            } else {
+                $contenu->texte_complet = true;
+            }
+        } else {
+            // Contenu gratuit, accès complet
+            $peutAcceder = true;
+            $contenu->texte_complet = true;
+        }
 
-        return view('contenus.public-show', compact('contenu', 'recentContenus'));
+        return view('contenus.public-show', compact('contenu', 'recentContenus', 'estPremium', 'peutAcceder', 'aAchete'));
     }
 }
