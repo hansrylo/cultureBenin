@@ -49,11 +49,14 @@ class ContenuController extends Controller
             'parent' => 'nullable|exists:contenus,id_contenu',
             'id_moderateur' => 'nullable|exists:utilisateurs,id_utilisateur',
             'date_validation' => 'nullable|date',
+            'est_premium' => 'boolean',
+            'prix' => 'nullable|numeric|min:0',
         ]);
         
         // Auto-fill fields
         $validated['date_creation'] = now();
         $validated['id_auteur'] = auth()->user()->id_utilisateur;
+        $validated['est_premium'] = $request->has('est_premium');
         
         $contenu = Contenu::create($validated);
 
@@ -102,9 +105,14 @@ class ContenuController extends Controller
             'parent' => 'nullable|exists:contenus,id_contenu',
             'id_moderateur' => 'nullable|exists:utilisateurs,id_utilisateur',
             'date_validation' => 'nullable|date',
+            'est_premium' => 'boolean',
+            'prix' => 'nullable|numeric|min:0',
         ]);
 
         $contenu = Contenu::findOrFail($id_contenu);
+        
+        $validated['est_premium'] = $request->has('est_premium');
+        
         $contenu->update($validated);
 
         return redirect()->route('contenus.index')

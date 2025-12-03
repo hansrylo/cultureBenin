@@ -16,6 +16,15 @@
                 </span>
             </div>
 
+            <!-- Badge Premium -->
+            @if(isset($estPremium) && $estPremium)
+                <div style="margin-bottom: 1rem; text-align: center;">
+                    <span style="background-color: #000; color: #FCD116; padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <i class="bi bi-star-fill"></i> PREMIUM
+                    </span>
+                </div>
+            @endif
+
             <!-- Title -->
             <h1 style="font-family: 'Poppins', sans-serif; font-size: 3rem; font-weight: 700; color: var(--color-accent-1); margin: 0 0 2rem 0; line-height: 1.2; text-align: center;">
                 {{ $contenu->titre }}
@@ -38,6 +47,15 @@
                 <div style="font-weight: 600; color: #555;">
                     {{ $contenu->created_at ? $contenu->created_at->format('d M Y à H:i') : '' }}
                 </div>
+                
+                @if(isset($estPremium) && $estPremium)
+                    <!-- Separator -->
+                    <div style="width: 6px; height: 6px; background-color: var(--color-accent-1); border-radius: 50%;"></div>
+                    
+                    <div style="font-weight: 700; color: #000;">
+                        {{ $contenu->prixFormate() }}
+                    </div>
+                @endif
             </div>
 
             <!-- Featured Image -->
@@ -52,8 +70,63 @@
     <!-- Article Content -->
     <section style="padding: 0 2rem 6rem 2rem;">
         <div style="max-width: 800px; margin: 0 auto;">
+            
+            <!-- Messages Flash -->
+            @if(session('error'))
+                <div style="background-color: #fee2e2; color: #b91c1c; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid #b91c1c;">
+                    {{ session('error') }}
+                </div>
+            @endif
+            
+            @if(session('info'))
+                <div style="background-color: #e0f2fe; color: #0369a1; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid #0369a1;">
+                    {{ session('info') }}
+                </div>
+            @endif
+
             <div style="font-size: 1.2rem; line-height: 1.8; color: #333; font-family: 'Georgia', serif;">
-                {!! nl2br(e($contenu->texte)) !!}
+                @if(isset($estPremium) && $estPremium && !$peutAcceder)
+                    <!-- Contenu Verrouillé (Aperçu) -->
+                    <div style="position: relative;">
+                        <div style="margin-bottom: 2rem;">
+                            {!! nl2br(e($contenu->texte_apercu)) !!}
+                        </div>
+                        
+                        <!-- Paywall Overlay -->
+                        <div style="background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1) 20%, rgba(255,255,255,1)); padding: 4rem 2rem; text-align: center; margin-top: -100px; position: relative; z-index: 10;">
+                            <div style="background: white; border: 2px solid #FCD116; border-radius: 20px; padding: 3rem; box-shadow: 0 20px 50px rgba(0,0,0,0.1); max-width: 500px; margin: 0 auto;">
+                                <div style="font-size: 3rem; color: #FCD116; margin-bottom: 1rem;">
+                                    <i class="bi bi-lock-fill"></i>
+                                </div>
+                                <h3 style="font-family: 'Poppins', sans-serif; font-weight: 700; color: #000; margin-bottom: 1rem;">
+                                    Contenu Premium
+                                </h3>
+                                <p style="color: #666; margin-bottom: 2rem;">
+                                    Cet article est réservé aux abonnés premium. Achetez-le pour accéder à la suite.
+                                </p>
+                                <div style="font-size: 2rem; font-weight: 800; color: var(--color-accent-1); margin-bottom: 2rem;">
+                                    {{ $contenu->prixFormate() }}
+                                </div>
+                                
+                                @auth
+                                    <a href="{{ route('payment.initiate', $contenu->id_contenu) }}" style="display: inline-block; background-color: var(--color-accent-1); color: white; padding: 1rem 2.5rem; border-radius: 50px; font-weight: 700; text-decoration: none; font-size: 1.1rem; box-shadow: 0 10px 20px rgba(var(--color-accent-1-rgb), 0.3); transition: transform 0.2s;">
+                                        Acheter l'article
+                                    </a>
+                                @else
+                                    <a href="{{ route('login') }}" style="display: inline-block; background-color: #333; color: white; padding: 1rem 2.5rem; border-radius: 50px; font-weight: 700; text-decoration: none; font-size: 1.1rem; margin-bottom: 1rem;">
+                                        Se connecter pour acheter
+                                    </a>
+                                    <div style="font-size: 0.9rem; color: #888;">
+                                        Pas encore de compte ? <a href="{{ route('register') }}" style="color: var(--color-accent-1);">S'inscrire</a>
+                                    </div>
+                                @endauth
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <!-- Contenu Complet -->
+                    {!! nl2br(e($contenu->texte)) !!}
+                @endif
             </div>
 
             <!-- Tags / Region / Language -->

@@ -11,12 +11,16 @@ class PurchaseConfirmation extends Notification
 {
     use Queueable;
 
+    protected $paiement;
+    protected $achat;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($paiement, $achat)
     {
-        //
+        $this->paiement = $paiement;
+        $this->achat = $achat;
     }
 
     /**
@@ -35,9 +39,16 @@ class PurchaseConfirmation extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->subject('Confirmation de votre achat - Miwakpon Bénin')
+            ->greeting('Bonjour ' . $notifiable->prenom . ',')
+            ->line('Nous vous confirmons l\'achat de l\'article suivant :')
+            ->line('**Article :** ' . $this->paiement->contenu->titre)
+            ->line('**Montant :** ' . $this->paiement->montantFormate())
+            ->line('**Référence :** #' . $this->paiement->id_paiement)
+            ->line('Vous pouvez dès maintenant accéder à cet article en cliquant sur le bouton ci-dessous.')
+            ->action('Lire l\'article', route('contenu.public.show', $this->paiement->contenu->id_contenu))
+            ->line('Retrouvez tous vos achats dans la section "Mes Achats" de votre compte.')
+            ->line('Merci de votre confiance !');
     }
 
     /**
@@ -48,7 +59,9 @@ class PurchaseConfirmation extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'paiement_id' => $this->paiement->id_paiement,
+            'contenu_id' => $this->paiement->contenu->id_contenu,
+            'montant' => $this->paiement->montant,
         ];
     }
 }

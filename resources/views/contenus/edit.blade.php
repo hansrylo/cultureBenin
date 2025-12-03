@@ -245,6 +245,48 @@ textarea.form-control {
                         @enderror
                     </div>
 
+                    <!-- Premium et Prix -->
+                    <div class="form-group" style="background: #f8f9fa; padding: 1rem; border-radius: 4px; border: 1px solid #e9ecef;">
+                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <input 
+                                type="checkbox" 
+                                id="est_premium" 
+                                name="est_premium" 
+                                value="1" 
+                                {{ old('est_premium', $contenu->est_premium) ? 'checked' : '' }}
+                                style="width: auto; margin-right: 0.5rem;"
+                            >
+                            <label for="est_premium" style="margin-bottom: 0; cursor: pointer;">
+                                Contenu Premium (Payant)
+                            </label>
+                        </div>
+                        
+                        <div id="prix_container" style="display: {{ old('est_premium', $contenu->est_premium) ? 'block' : 'none' }};">
+                            <label for="prix">
+                                Prix (XOF) <span class="required">*</span>
+                            </label>
+                            <input 
+                                type="number" 
+                                class="form-control @error('prix') is-invalid @enderror" 
+                                id="prix" 
+                                name="prix" 
+                                value="{{ old('prix', $contenu->prix) }}" 
+                                placeholder="Ex: 500"
+                                min="0"
+                                step="100"
+                            >
+                            @error('prix')
+                                <small style="color: #dc3545; display: block; margin-top: 0.25rem;">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <script>
+                        document.getElementById('est_premium').addEventListener('change', function() {
+                            document.getElementById('prix_container').style.display = this.checked ? 'block' : 'none';
+                        });
+                    </script>
+
 
                     <!-- Langue -->
                     <div class="form-group">
