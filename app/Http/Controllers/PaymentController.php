@@ -53,7 +53,7 @@ class PaymentController extends Controller
             
             // Initier la transaction Fedapay
             $transaction = $this->fedapayService->initierPaiement(
-                $contenu->prix,
+                (int) $contenu->prix,
                 "Achat de l'article: " . $contenu->titre,
                 [
                     'firstname' => $utilisateur->prenom,
