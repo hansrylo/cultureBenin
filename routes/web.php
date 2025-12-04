@@ -8,6 +8,41 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('Home');
 Route::get('/article/{id}', [HomeController::class, 'show'])->name('contenu.public.show');
 
+// Route de test pour vérifier la connexion à la base de données
+Route::get('/test-db', function() {
+    try {
+        $contenus = \App\Models\Contenu::count();
+        $contenusValides = \App\Models\Contenu::where('statut', 'validé')->count();
+        $regions = \App\Models\Region::count();
+        $langues = \App\Models\Langue::count();
+        
+        return response()->json([
+            'status' => 'success',
+            'database' => config('database.default'),
+            'connection' => [
+                'driver' => config('database.connections.mysql.driver'),
+                'host' => config('database.connections.mysql.host'),
+                'port' => config('database.connections.mysql.port'),
+                'database' => config('database.connections.mysql.database'),
+                'username' => config('database.connections.mysql.username'),
+            ],
+            'counts' => [
+                'contenus_total' => $contenus,
+                'contenus_valides' => $contenusValides,
+                'regions' => $regions,
+                'langues' => $langues
+            ]
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ], 500);
+    }
+});
+
+
 
 
 Route::middleware('auth')->group(function () {
