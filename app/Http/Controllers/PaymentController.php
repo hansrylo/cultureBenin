@@ -87,7 +87,7 @@ class PaymentController extends Controller
             
         } catch (\Exception $e) {
             Log::error('Erreur lors de l\'initiation du paiement: ' . $e->getMessage());
-            return back()->with('error', 'Une erreur est survenue. Veuillez réessayer.');
+            return back()->with('error', 'Erreur: ' . $e->getMessage());
         }
     }
     

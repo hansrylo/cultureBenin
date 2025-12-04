@@ -41,7 +41,7 @@ class FedapayService
             return $transaction;
         } catch (Exception $e) {
             Log::error('Erreur lors de l\'initiation du paiement Fedapay: ' . $e->getMessage());
-            return null;
+            throw $e;
         }
     }
     
