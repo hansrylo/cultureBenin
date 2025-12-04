@@ -28,9 +28,11 @@ class FedapayService
     public function initierPaiement($montant, $description, $customer = [], $callbackUrl = null)
     {
         try {
+            Log::info('Initiation paiement FedaPay', ['amount' => $montant, 'type' => gettype($montant)]);
+            
             $transaction = Transaction::create([
                 'description' => $description,
-                'amount' => $montant,
+                'amount' => (int) $montant,
                 'currency' => [
                     'iso' => config('fedapay.currency', 'XOF')
                 ],
