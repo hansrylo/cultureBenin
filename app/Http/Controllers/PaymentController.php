@@ -17,7 +17,6 @@ class PaymentController extends Controller
     
     public function __construct(FedapayService $fedapayService, ContentPurchaseService $purchaseService)
     {
-        $this->middleware('auth');
         $this->fedapayService = $fedapayService;
         $this->purchaseService = $purchaseService;
     }
