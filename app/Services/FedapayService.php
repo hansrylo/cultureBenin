@@ -39,6 +39,15 @@ class FedapayService
             ]);
             
             return $transaction;
+        } catch (\FedaPay\Error\Base $e) {
+            $body = $e->getHttpBody();
+            $err  = $e->getJsonBody();
+            $errorMessage = isset($err['message']) ? $err['message'] : $e->getMessage();
+            if (isset($err['errors'])) {
+                $errorMessage .= ' - ' . json_encode($err['errors']);
+            }
+            Log::error('Erreur FedaPay: ' . $errorMessage);
+            throw new Exception("FedaPay Error: " . $errorMessage);
         } catch (Exception $e) {
             Log::error('Erreur lors de l\'initiation du paiement Fedapay: ' . $e->getMessage());
             throw $e;
