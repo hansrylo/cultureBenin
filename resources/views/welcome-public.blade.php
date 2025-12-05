@@ -97,68 +97,155 @@
         <div class="decorative-circle" style="width: 200px; height: 200px; background: var(--color-accent-2); bottom: -50px; left: 5%; animation: pulse 6s ease-in-out infinite 1s;"></div>
         <div class="hero-accent" style="top: 20%; right: 15%;"></div>
         <div class="hero-accent" style="bottom: 15%; left: 10%; animation-delay: 2s;"></div>
-        <div style="max-width: 1300px; margin: 0 auto; position: relative;">
+        <div style="max-width: 1300px; margin: 0 auto; position: relative;" id="hero-carousel">
             @if($contenus && $contenus->count() > 0)
-                @php $contenu = $contenus->first(); @endphp
-                <div style="min-width: 100%; height: 500px; display: flex; gap: 2rem; align-items: center;">
-                    <!-- Left: Image -->
-                    <div style="flex: 2.5; position: relative; height: 100%; border-radius: 20px; overflow: hidden; box-shadow: 8px 8px 0px var(--color-accent-1);">
-                        @if($contenu->medias && $contenu->medias->count() > 0)
-                            <div style="width: 100%; height: 100%; background-image: url('{{ asset('storage/' . $contenu->medias->first()->chemin) }}'); background-size: cover; background-position: center;"></div>
-                        @else
-                            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #009E60 0%, #00C878 100%);"></div>
-                        @endif
-                    </div>
-                        <!-- Right: Content -->
-                    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; padding-left: 2rem;">
-                        <!-- Badge -->
-                        <div style="margin-bottom: 1rem;">
-                            <span style="background-color: #FCD116; color: var(--color-accent-1); padding: 0.6rem 1.5rem; font-size: 0.9rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; box-shadow: 4px 4px 0px var(--color-accent-1);">
-                                {{ $contenu->type ? $contenu->type->nom : 'ARTICLE' }}
-                            </span>
-                        </div>
-                        
-                        <!-- Title -->
-                        <h2 style="font-family: 'Poppins', sans-serif; font-size: 2.2rem; font-weight: 600; color: var(--color-accent-1); margin: 0 0 1rem 0; line-height: 1.2;">
-                            {{ $contenu->titre }}
-                        </h2>
-                        
-                        <!-- Description -->
-                        <p style="color: #666; font-size: 1rem; margin: 0 0 1.5rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font-weight: 400;">
-                            {{ Str::limit($contenu->texte, 180) }}
-                        </p>
-                        
-                        <!-- CTA Button -->
-                        <div style="margin-bottom: 1.5rem;">
-                            <a href="{{ route('contenu.public.show', $contenu->id_contenu) }}" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--color-accent-1); text-decoration: none; font-weight: 700; font-size: 1rem; border-bottom: 2px solid var(--color-accent-1); padding-bottom: 2px; transition: all 0.3s ease;">
-                                Lire l'article
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-
-                        <!-- Metadata (Author & Date) -->
-                        <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.9rem; color: #666;">
-                            @if($contenu->auteur)
-                                <div style="display: flex; align-items: center; gap: 0.8rem;">
-                                    <div style="width: 35px; height: 35px; border-radius: 50%; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                                        <i class="bi bi-person-fill" style="font-size: 1.2rem; color: #bbb;"></i>
-                                    </div>
-                                    <span style="font-weight: 700; color: var(--color-accent-1); text-transform: uppercase; letter-spacing: 0.5px;">{{ $contenu->auteur->name }}</span>
+                <div class="carousel-container" style="position: relative; min-height: 500px;">
+                    @foreach($contenus->take(5) as $index => $contenu)
+                        <div class="hero-slide" data-index="{{ $index }}" style="min-width: 100%; height: 500px; display: {{ $index === 0 ? 'flex' : 'none' }}; gap: 2rem; align-items: center; position: absolute; top: 0; left: 0; opacity: {{ $index === 0 ? '1' : '0' }}; transition: opacity 0.8s ease-in-out;">
+                            <!-- Left: Image -->
+                            <div style="flex: 2.5; position: relative; height: 100%; border-radius: 20px; overflow: hidden; box-shadow: 8px 8px 0px var(--color-accent-1);">
+                                @if($contenu->medias && $contenu->medias->count() > 0)
+                                    <div style="width: 100%; height: 100%; background-image: url('{{ asset('storage/' . $contenu->medias->first()->chemin) }}'); background-size: cover; background-position: center;"></div>
+                                @else
+                                    <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #009E60 0%, #00C878 100%);"></div>
+                                @endif
+                            </div>
+                                <!-- Right: Content -->
+                            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; padding-left: 2rem;">
+                                <!-- Badge -->
+                                <div style="margin-bottom: 1rem;">
+                                    <span style="background-color: #FCD116; color: var(--color-accent-1); padding: 0.6rem 1.5rem; font-size: 0.9rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; box-shadow: 4px 4px 0px var(--color-accent-1);">
+                                        {{ $contenu->type ? $contenu->type->nom : 'ARTICLE' }}
+                                    </span>
                                 </div>
-                            @endif
-                            
-                            <!-- Separator -->
-                            <div style="width: 6px; height: 6px; background-color: var(--color-accent-1); border-radius: 50%;"></div>
-                            
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <span style="font-weight: 600; color: #555;">
-                                    {{ $contenu->created_at ? $contenu->created_at->format('d M Y à H:i') : '' }}
-                                </span>
+                                
+                                <!-- Title -->
+                                <h2 style="font-family: 'Poppins', sans-serif; font-size: 2.2rem; font-weight: 600; color: var(--color-accent-1); margin: 0 0 1rem 0; line-height: 1.2;">
+                                    {{ $contenu->titre }}
+                                </h2>
+                                
+                                <!-- Description -->
+                                <p style="color: #666; font-size: 1rem; margin: 0 0 1.5rem 0; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font-weight: 400;">
+                                    {{ Str::limit($contenu->texte, 180) }}
+                                </p>
+                                
+                                <!-- CTA Button -->
+                                <div style="margin-bottom: 1.5rem;">
+                                    <a href="{{ route('contenu.public.show', $contenu->id_contenu) }}" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--color-accent-1); text-decoration: none; font-weight: 700; font-size: 1rem; border-bottom: 2px solid var(--color-accent-1); padding-bottom: 2px; transition: all 0.3s ease;">
+                                        Lire l'article
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+
+                                <!-- Metadata (Author & Date) -->
+                                <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.9rem; color: #666;">
+                                    @if($contenu->auteur)
+                                        <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                            <div style="width: 35px; height: 35px; border-radius: 50%; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                                                <i class="bi bi-person-fill" style="font-size: 1.2rem; color: #bbb;"></i>
+                                            </div>
+                                            <span style="font-weight: 700; color: var(--color-accent-1); text-transform: uppercase; letter-spacing: 0.5px;">{{ $contenu->auteur->name }}</span>
+                                        </div>
+                                    @endif
+                                    
+                                    <!-- Separator -->
+                                    <div style="width: 6px; height: 6px; background-color: var(--color-accent-1); border-radius: 50%;"></div>
+                                    
+                                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                        <span style="font-weight: 600; color: #555;">
+                                            {{ $contenu->created_at ? $contenu->created_at->format('d M Y à H:i') : '' }}
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
+                </div>
+
+                <!-- Navigation Controls -->
+                <button id="prevSlide" style="position: absolute; top: 50%; left: -80px; transform: translateY(-50%); background: none; border: none; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--color-accent-1); font-size: 2.5rem; transition: all 0.3s ease; z-index: 10; opacity: 0.7;" onmouseover="this.style.opacity='1'; this.style.transform='translateY(-50%) scale(1.1)'" onmouseout="this.style.opacity='0.7'; this.style.transform='translateY(-50%) scale(1)'">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+                <button id="nextSlide" style="position: absolute; top: 50%; right: -80px; transform: translateY(-50%); background: none; border: none; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--color-accent-1); font-size: 2.5rem; transition: all 0.3s ease; z-index: 10; opacity: 0.7;" onmouseover="this.style.opacity='1'; this.style.transform='translateY(-50%) scale(1.1)'" onmouseout="this.style.opacity='0.7'; this.style.transform='translateY(-50%) scale(1)'">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
             @endif
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const slides = document.querySelectorAll('.hero-slide');
+                const prevBtn = document.getElementById('prevSlide');
+                const nextBtn = document.getElementById('nextSlide');
+                const carousel = document.getElementById('hero-carousel');
+                let currentIndex = 0;
+                let interval;
+
+                function showSlide(index) {
+                    // Handle wrap-around
+                    if (index >= slides.length) index = 0;
+                    if (index < 0) index = slides.length - 1;
+                    
+                    currentIndex = index;
+
+                    // Update slides
+                    slides.forEach((slide, i) => {
+                        if (i === currentIndex) {
+                            slide.style.display = 'flex';
+                            // Small delay to allow display:flex to apply before opacity transition
+                            setTimeout(() => {
+                                slide.style.opacity = '1';
+                            }, 50);
+                        } else {
+                            slide.style.opacity = '0';
+                            setTimeout(() => {
+                                if (i !== currentIndex) slide.style.display = 'none';
+                            }, 800); // Match transition duration
+                        }
+                    });
+                }
+
+                function nextSlide() {
+                    showSlide(currentIndex + 1);
+                }
+
+                function prevSlide() {
+                    showSlide(currentIndex - 1);
+                }
+
+                function startAutoRotation() {
+                    interval = setInterval(nextSlide, 5000);
+                }
+
+                function stopAutoRotation() {
+                    clearInterval(interval);
+                }
+
+                // Event Listeners
+                if (prevBtn && nextBtn) {
+                    prevBtn.addEventListener('click', () => {
+                        stopAutoRotation();
+                        prevSlide();
+                        startAutoRotation();
+                    });
+
+                    nextBtn.addEventListener('click', () => {
+                        stopAutoRotation();
+                        nextSlide();
+                        startAutoRotation();
+                    });
+                }
+
+                // Pause on hover
+                if (carousel) {
+                    carousel.addEventListener('mouseenter', stopAutoRotation);
+                    carousel.addEventListener('mouseleave', startAutoRotation);
+                }
+
+                // Start
+                startAutoRotation();
+            });
+        </script>
     </section>
 
     <!-- DERNIÈRES PUBLICATIONS Section -->
