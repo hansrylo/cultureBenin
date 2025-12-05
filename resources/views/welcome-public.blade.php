@@ -49,6 +49,46 @@
                     opacity: 0.15;
                     animation: float 6s ease-in-out infinite;
                 }
+
+                /* Responsive adjustments */
+                .agenda-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 2rem;
+                }
+                .gallery-grid {
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    grid-template-rows: repeat(2, 200px);
+                    gap: 1rem;
+                }
+                .newsletter-content {
+                    display: flex;
+                    align-items: center;
+                    gap: 3rem;
+                }
+                @media (max-width: 992px) {
+                    .gallery-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                        grid-template-rows: repeat(4, 200px);
+                    }
+                    .newsletter-content {
+                        flex-direction: column;
+                        gap: 2rem;
+                        text-align: center;
+                    }
+                }
+                @media (max-width: 576px) {
+                    .gallery-grid {
+                        grid-template-columns: 1fr;
+                        grid-template-rows: auto;
+                    }
+                    .gallery-item-large {
+                        grid-column: span 1 !important;
+                        grid-row: span 1 !important;
+                        height: 250px;
+                    }
+                }
             </style>
     <!-- Hero Section (Static) -->
     <section style="padding: 6rem 2rem; position: relative; overflow: hidden;">
@@ -122,7 +162,7 @@
     </section>
 
     <!-- DERNIÈRES PUBLICATIONS Section -->
-    <section class="section" id="contenus" style="background-color: var(--color-accent-3); position: relative; overflow: hidden;">
+    <section class="section animate-slide-up" id="contenus" style="background-color: var(--color-accent-3); position: relative; overflow: hidden; animation-delay: 0.2s;">
         <!-- Decorative accent -->
         <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: linear-gradient(135deg, #FCD116 0%, #E8B923 100%); border-radius: 50%; opacity: 0.1;"></div>
         <div class="container">
@@ -137,11 +177,11 @@
             @if($contenus && count($contenus) > 0)
                 <div class="grid grid-cols-3">
                     @foreach($contenus->take(12) as $contenu)
-                        <a href="{{ route('contenu.public.show', $contenu->id_contenu) }}" class="card-link" style="text-decoration: none; color: inherit;">
+                        <a href="{{ route('contenu.public.show', $contenu->id_contenu) }}" class="card-link hover-lift" style="text-decoration: none; color: inherit;">
                             <article class="card" style="height: 100%; display: flex; flex-direction: column;">
                                 <div style="height: 200px; overflow: hidden; position: relative;">
                                     @if($contenu->medias && $contenu->medias->count() > 0)
-                                        <img src="{{ asset('storage/' . $contenu->medias->first()->chemin) }}" alt="{{ $contenu->titre }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;">
+                                        <img src="{{ asset('storage/' . $contenu->medias->first()->chemin) }}" alt="{{ $contenu->titre }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" class="hover:scale-110">
                                     @else
                                         <div style="width: 100%; height: 100%; background: linear-gradient(135deg, var(--color-accent-2) 0%, var(--color-accent-1) 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
                                             📰
@@ -179,7 +219,7 @@
     </section>
 
     <!-- Régions -->
-    <section class="section" id="regions" style="background-color: var(--color-accent-3);">
+    <section class="section animate-slide-up" id="regions" style="background-color: var(--color-accent-3); animation-delay: 0.4s;">
         <div class="container">
             <div class="divider"></div>
             <h2 class="section-title">Explorez nos Régions</h2>
@@ -188,7 +228,7 @@
             @if($regions && count($regions) > 0)
                 <div class="grid grid-cols-3">
                     @foreach($regions->take(12) as $region)
-                        <a href="#" class="card" style="cursor: pointer; text-decoration: none; text-align: center; overflow: hidden;">
+                        <a href="#" class="card hover-lift" style="cursor: pointer; text-decoration: none; text-align: center; overflow: hidden;">
                             <div style="background: linear-gradient(135deg, var(--color-accent-2) 0%, var(--color-accent-1) 100%); height: 180px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem;">
                                 🏛️
                             </div>
@@ -211,7 +251,7 @@
     </section>
 
     <!-- Langues -->
-    <section class="section" id="langues">
+    <section class="section animate-slide-up" id="langues" style="animation-delay: 0.6s;">
         <div class="container">
             <div class="divider"></div>
             <h2 class="section-title">Nos Langues</h2>
@@ -220,7 +260,7 @@
             @if($langues && count($langues) > 0)
                 <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
                     @foreach($langues->take(8) as $langue)
-                        <a href="#" class="card" style="cursor: pointer; text-decoration: none; text-align: center;">
+                        <a href="#" class="card hover-lift" style="cursor: pointer; text-decoration: none; text-align: center;">
                             <div style="background: linear-gradient(135deg, var(--color-accent-4) 0%, #FFB84D 100%); height: 150px; display: flex; align-items: center; justify-content: center; color: var(--color-accent-1); font-size: 2.5rem;">
                                 <i class="bi bi-translate"></i>
                             </div>
@@ -239,6 +279,170 @@
                     @endforeach
                 </div>
             @endif
+        </div>
+    </section>
+
+    <!-- Agenda Culturel -->
+    <section class="section animate-slide-up" id="agenda" style="animation-delay: 0.7s; background-color: #fff; position: relative;">
+        <div class="decorative-circle" style="width: 150px; height: 150px; background: var(--color-accent-4); top: 10%; left: -50px; opacity: 0.1;"></div>
+        <div class="container">
+            <div class="divider"></div>
+            <div style="display: flex; justify-content: space-between; align-items: end; margin-bottom: 2rem;">
+                <div>
+                    <h2 class="section-title">Agenda Culturel</h2>
+                    <p class="section-subtitle" style="margin-bottom: 0;">Ne manquez aucun événement</p>
+                </div>
+                <a href="#" style="color: var(--color-accent-1); font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                    Voir tout l'agenda <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="agenda-grid">
+                <!-- Event Card 1 -->
+                <div class="card hover-lift" style="display: flex; flex-direction: column;">
+                    <div style="position: relative; height: 200px; overflow: hidden;">
+                        <div style="background: linear-gradient(135deg, #FF6B6B 0%, #EE5253 100%); width: 100%; height: 100%;"></div>
+                        <div style="position: absolute; top: 1rem; right: 1rem; background: white; padding: 0.5rem 1rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                            <div style="font-weight: 800; font-size: 1.2rem; color: var(--color-accent-1); line-height: 1;">15</div>
+                            <div style="font-size: 0.8rem; text-transform: uppercase; color: #666;">DÉC</div>
+                        </div>
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+                            <span style="color: white; font-size: 0.8rem; background: rgba(255,255,255,0.2); padding: 0.2rem 0.6rem; border-radius: 20px; backdrop-filter: blur(4px);">
+                                <i class="bi bi-geo-alt-fill"></i> Porto-Novo
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title" style="font-size: 1.2rem;">Festival des Masques Guèlèdè</h3>
+                        <p class="card-text" style="font-size: 0.9rem; color: #666;">Une célébration unique classée au patrimoine de l'UNESCO.</p>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #eee; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 0.85rem; color: #888;"><i class="bi bi-clock"></i> 10:00 - 18:00</span>
+                            <button style="background: none; border: 1px solid var(--color-accent-1); color: var(--color-accent-1); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='var(--color-accent-1)'; this.style.color='white'" onmouseout="this.style.background='none'; this.style.color='var(--color-accent-1)'">
+                                Réserver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Card 2 -->
+                <div class="card hover-lift" style="display: flex; flex-direction: column;">
+                    <div style="position: relative; height: 200px; overflow: hidden;">
+                        <div style="background: linear-gradient(135deg, #4ECDC4 0%, #45B7AF 100%); width: 100%; height: 100%;"></div>
+                        <div style="position: absolute; top: 1rem; right: 1rem; background: white; padding: 0.5rem 1rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                            <div style="font-weight: 800; font-size: 1.2rem; color: var(--color-accent-1); line-height: 1;">10</div>
+                            <div style="font-size: 0.8rem; text-transform: uppercase; color: #666;">JAN</div>
+                        </div>
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+                            <span style="color: white; font-size: 0.8rem; background: rgba(255,255,255,0.2); padding: 0.2rem 0.6rem; border-radius: 20px; backdrop-filter: blur(4px);">
+                                <i class="bi bi-geo-alt-fill"></i> Ouidah
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title" style="font-size: 1.2rem;">Fête du Vaudou</h3>
+                        <p class="card-text" style="font-size: 0.9rem; color: #666;">La grande rencontre annuelle des divinités et adeptes.</p>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #eee; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 0.85rem; color: #888;"><i class="bi bi-clock"></i> Toute la journée</span>
+                            <button style="background: none; border: 1px solid var(--color-accent-1); color: var(--color-accent-1); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='var(--color-accent-1)'; this.style.color='white'" onmouseout="this.style.background='none'; this.style.color='var(--color-accent-1)'">
+                                Réserver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Card 3 -->
+                <div class="card hover-lift" style="display: flex; flex-direction: column;">
+                    <div style="position: relative; height: 200px; overflow: hidden;">
+                        <div style="background: linear-gradient(135deg, #A8D8EA 0%, #AA96DA 100%); width: 100%; height: 100%;"></div>
+                        <div style="position: absolute; top: 1rem; right: 1rem; background: white; padding: 0.5rem 1rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                            <div style="font-weight: 800; font-size: 1.2rem; color: var(--color-accent-1); line-height: 1;">22</div>
+                            <div style="font-size: 0.8rem; text-transform: uppercase; color: #666;">JAN</div>
+                        </div>
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+                            <span style="color: white; font-size: 0.8rem; background: rgba(255,255,255,0.2); padding: 0.2rem 0.6rem; border-radius: 20px; backdrop-filter: blur(4px);">
+                                <i class="bi bi-geo-alt-fill"></i> Cotonou
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title" style="font-size: 1.2rem;">Exposition Art Contemporain</h3>
+                        <p class="card-text" style="font-size: 0.9rem; color: #666;">Découverte des nouveaux talents béninois.</p>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #eee; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 0.85rem; color: #888;"><i class="bi bi-clock"></i> 09:00 - 20:00</span>
+                            <button style="background: none; border: 1px solid var(--color-accent-1); color: var(--color-accent-1); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='var(--color-accent-1)'; this.style.color='white'" onmouseout="this.style.background='none'; this.style.color='var(--color-accent-1)'">
+                                Réserver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galerie Photos -->
+    <section class="section animate-slide-up" id="galerie" style="animation-delay: 0.8s; background-color: var(--color-accent-3);">
+        <div class="container">
+            <div class="divider"></div>
+            <h2 class="section-title" style="text-align: center;">Immersion Visuelle</h2>
+            <p class="section-subtitle" style="text-align: center; max-width: 600px; margin: 0 auto 3rem auto;">Le Bénin en images, une terre de couleurs et de traditions.</p>
+
+            <div class="gallery-grid">
+                <!-- Large Item -->
+                <div class="hover-scale gallery-item-large" style="grid-column: span 2; grid-row: span 2; border-radius: 16px; overflow: hidden; position: relative; cursor: pointer;">
+                    <div style="background: linear-gradient(45deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%); width: 100%; height: 100%;"></div>
+                    <div class="card-overlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0.3); opacity: 0; transition: opacity 0.3s; display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-zoom-in" style="color: white; font-size: 2rem;"></i>
+                    </div>
+                </div>
+                <!-- Small Items -->
+                <div class="hover-scale" style="border-radius: 16px; overflow: hidden; position: relative; cursor: pointer;">
+                    <div style="background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%); width: 100%; height: 100%;"></div>
+                </div>
+                <div class="hover-scale" style="border-radius: 16px; overflow: hidden; position: relative; cursor: pointer;">
+                    <div style="background: linear-gradient(to right, #fa709a 0%, #fee140 100%); width: 100%; height: 100%;"></div>
+                </div>
+                <div class="hover-scale" style="border-radius: 16px; overflow: hidden; position: relative; cursor: pointer;">
+                    <div style="background: linear-gradient(to top, #30cfd0 0%, #330867 100%); width: 100%; height: 100%;"></div>
+                </div>
+                <div class="hover-scale" style="border-radius: 16px; overflow: hidden; position: relative; cursor: pointer;">
+                    <div style="background: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%); width: 100%; height: 100%;"></div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="#" class="btn btn-secondary" style="background: transparent; border: 2px solid var(--color-accent-1); color: var(--color-accent-1);">
+                    Voir toute la galerie
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="section animate-slide-up" style="animation-delay: 0.9s; padding: 5rem 0;">
+        <div class="container">
+            <div style="background: var(--color-accent-1); border-radius: 30px; padding: 3rem; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 158, 96, 0.2);">
+                <!-- Decorative circles -->
+                <div style="position: absolute; top: -50px; left: -50px; width: 200px; height: 200px; border-radius: 50%; border: 20px solid rgba(255,255,255,0.05);"></div>
+                <div style="position: absolute; bottom: -30px; right: -30px; width: 150px; height: 150px; background: #FCD116; border-radius: 50%; opacity: 0.1;"></div>
+                
+                <div class="newsletter-content" style="position: relative; z-index: 1;">
+                    <div style="flex: 1; color: white;">
+                        <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1rem;">Restez connecté</h2>
+                        <p style="opacity: 0.9; font-size: 1.1rem; font-weight: 300;">Recevez nos dernières découvertes culturelles et actualités directement dans votre boîte mail.</p>
+                    </div>
+                    <div style="flex: 1;">
+                        <form style="background: white; padding: 0.5rem; border-radius: 50px; display: flex; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+                            <input type="email" placeholder="Votre adresse email" style="border: none; outline: none; padding: 1rem 1.5rem; flex: 1; border-radius: 50px; font-family: 'Outfit', sans-serif;">
+                            <button type="submit" style="background: var(--color-accent-2); color: white; border: none; padding: 0.8rem 2rem; border-radius: 50px; font-weight: 700; cursor: pointer; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                S'abonner
+                            </button>
+                        </form>
+                        <div style="margin-top: 1rem; text-align: center; color: rgba(255,255,255,0.6); font-size: 0.8rem;">
+                            <i class="bi bi-lock-fill"></i> Nous respectons votre vie privée.
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 

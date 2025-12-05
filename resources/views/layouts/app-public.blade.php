@@ -6,22 +6,23 @@
     <title>@yield('title', 'Culture Benin')</title>
     
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Imported via app.css -->
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
     <style>
         :root {
-            /* Couleurs du thème Infield */
-            --color-accent-1: #002B6A;
-            --color-accent-2: #007FE6;
-            --color-contrast: #11181F;
+            /* Couleurs du thème Premium Culture Bénin */
+            --color-accent-1: #002B6A; /* Original Deep Blue */
+            --color-accent-2: #007FE6; /* Original Bright Blue */
+            --color-contrast: #111827; /* Neutral 900 */
             --color-base: #ffffff;
-            --color-accent-3: #F7F6F1;
-            --color-accent-4: #ffcd58;
+            --color-accent-3: #F7F6F1; /* Cream */
+            --color-accent-4: #E8112D; /* Benin Red */
             
             /* Spacing */
             --spacing-xs: 0.25rem;
@@ -32,8 +33,8 @@
             --spacing-2xl: 8.75rem;
             
             /* Typography */
-            --font-primary: 'Archivo Narrow', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            --font-secondary: 'Open Sans', sans-serif;
+            --font-primary: 'Playfair Display', serif;
+            --font-secondary: 'Outfit', sans-serif;
         }
         
         * {
@@ -487,89 +488,78 @@
     <div id="app">
         <!-- Header - Simplified -->
         <header class="navbar">
-            <div style="padding: 1.25rem 2rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center; gap: 3rem;">
-                    
-                    <!-- Logo Section - Simplified -->
-                    <a href="{{ route('Home') }}" class="navbar-brand" style="display: inline-flex; align-items: center; text-decoration: none; flex-shrink: 0; gap: 0.75rem;">
-                        <img src="{{ asset('images/miwakpon-benin-logo-removebg-preview.png') }}" alt="Logo" style="height: 40px; width: auto;">
-                        <div style="display: flex; flex-direction: column; gap: 0.1rem;">
-                            <span style="font-family: 'Poppins', sans-serif; font-size: 1.2rem; font-weight: 700; color: #2c3e50; letter-spacing: -0.5px; line-height: 1;">Miwakpon Bénin</span>
-                            <span style="font-size: 0.6rem; color: #666; font-weight: 500; letter-spacing: 1px; text-transform: uppercase;">Culture & Patrimoine</span>
-                        </div>
-                    </a>
-                    
-                    <!-- Navigation Center - Simplified -->
-                    <nav style="flex: 1; display: flex; justify-content: center;">
-                        <ul class="navbar-menu" style="margin: 0; padding: 0; display: flex; gap: 2rem;">
-                            <li><a href="#contenus">Articles culturels</a></li>
-                            <li><a href="#contenus">Histoire</a></li>
-                            <li><a href="#contenus">Cuisine</a></li>
-                        </ul>
-                    </nav>
-                    
-                    <!-- Action Buttons with Premium Styling -->
-                    <div style="display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0;">
-                        <!-- Search Button with Glassmorphism -->
-                        <div style="position: relative;">
-                            <button id="searchToggle" type="button" style="background: #f8f9fa; border: 1px solid #dee2e6; color: #6c757d; cursor: pointer; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-                                <i class="bi bi-search"></i>
+            <div class="navbar-container" style="padding: 1rem 2rem;">
+                <!-- Logo Section -->
+                <a href="{{ route('Home') }}" class="navbar-brand">
+                    <img src="{{ asset('images/miwakpon-benin-logo-removebg-preview.png') }}" alt="Logo" style="height: 45px; width: auto;">
+                    <div style="display: flex; flex-direction: column; gap: 0.1rem;">
+                        <span style="font-family: var(--font-primary); font-size: 1.4rem; font-weight: 700; color: var(--color-accent-1); letter-spacing: -0.5px; line-height: 1;">Miwakpon Bénin</span>
+                        <span style="font-size: 0.65rem; color: var(--color-accent-2); font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;">Culture & Patrimoine</span>
+                    </div>
+                </a>
+                
+                <!-- Search Bar - Centered -->
+                <div style="flex: 1; max-width: 500px; margin: 0 2rem;">
+                    <form action="{{ route('Home') }}" method="GET" style="position: relative; width: 100%;">
+                        <div style="position: relative; display: flex; align-items: center;">
+                            <i class="bi bi-search" style="position: absolute; left: 1.2rem; color: #9CA3AF; font-size: 1rem;"></i>
+                            <input
+                                type="text"
+                                name="search"
+                                placeholder="Rechercher un article, une région..."
+                                value="{{ request('search') }}"
+                                style="width: 100%; padding: 0.8rem 1rem 0.8rem 3rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 50px; background: rgba(0,0,0,0.03); color: var(--color-contrast); font-size: 0.95rem; transition: all 0.3s ease; font-family: var(--font-secondary);"
+                                onfocus="this.style.background='white'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.08)'; this.style.borderColor='var(--color-accent-2)';"
+                                onblur="this.style.background='rgba(0,0,0,0.03)'; this.style.boxShadow='none'; this.style.borderColor='rgba(0,0,0,0.1)';"
+                            >
+                            <button type="submit" style="position: absolute; right: 0.5rem; background: var(--color-accent-1); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s ease;">
+                                <i class="bi bi-arrow-right"></i>
                             </button>
-                            <!-- Search Bar - Simplified -->
-                            <div id="searchBar" style="position: absolute; top: calc(100% + 0.5rem); right: 0; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 1000;">
-                                <form action="{{ route('Home') }}" method="GET">
-                                    <div style="position: relative; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); overflow: hidden; border: 1px solid #e9ecef;">
-                                        <input
-                                            type="text"
-                                            name="search"
-                                            id="searchInput"
-                                            placeholder="Rechercher..."
-                                            value="{{ request('search') }}"
-                                            style="padding: 0.75rem 3rem 0.75rem 1rem; border: none; outline: none; color: #333; font-size: 0.9rem; width: 250px; background: transparent;"
-                                        >
-                                        <button type="submit" style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background: #6c757d; border: none; color: white; cursor: pointer; padding: 0.4rem 0.6rem; border-radius: 6px;">
-                                            <i class="bi bi-search" style="font-size: 0.9rem;"></i>
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
                         </div>
-                        
-                        @auth
-                            <div style="position: relative;">
-                                <button id="userMenuBtn" style="background: #009E60; color: white; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-                                    <i class="bi bi-person-circle" style="font-size: 1.1rem;"></i>
-                                    <span style="font-size: 0.85rem;">{{ Auth::user()->name }}</span>
-                                    <i class="bi bi-chevron-down" style="font-size: 0.7rem; transition: transform 0.3s ease;" class="chevron-icon"></i>
-                                </button>
-                                <div id="userDropdown" style="position: absolute; top: calc(100% + 0.75rem); right: 0; min-width: 240px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000;">
-                                    <div style="background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(20px); border-radius: 16px; box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2); overflow: hidden; border: 1px solid rgba(0, 158, 96, 0.1);">
-                                        <div style="padding: 1.5rem; border-bottom: 1px solid rgba(0, 0, 0, 0.06); background: linear-gradient(135deg, rgba(0, 158, 96, 0.05), rgba(0, 200, 120, 0.05));">
-                                            <div style="font-size: 0.7rem; color: #009E60; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 0.5rem;">Mon Compte</div>
-                                            <div style="font-size: 1rem; color: #212529; font-weight: 700; margin-bottom: 0.25rem;">{{ Auth::user()->name }}</div>
-                                            <div style="font-size: 0.85rem; color: #6c757d; font-weight: 500;">{{ Auth::user()->email }}</div>
-                                        </div>
-                                        <div style="padding: 0.75rem;">
-                                            <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
-                                                @csrf
-                                                <button type="submit" style="display: flex; align-items: center; gap: 0.85rem; padding: 0.85rem; border-radius: 12px; background: none; border: none; width: 100%; text-align: left; cursor: pointer; transition: all 0.3s ease; color: #dc3545; font-weight: 600; font-size: 0.9rem;">
-                                                    <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);">
-                                                        <i class="bi bi-box-arrow-right" style="font-size: 1.1rem;"></i>
-                                                    </div>
-                                                    <span>Déconnexion</span>
-                                                </button>
-                                            </form>
-                                        </div>
+                    </form>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div style="display: flex; align-items: center; gap: 1rem; flex-shrink: 0;">
+                    @auth
+                        <div style="position: relative;">
+                            <button id="userMenuBtn" style="background: white; color: var(--color-contrast); padding: 0.5rem 0.5rem 0.5rem 1rem; border-radius: 50px; font-weight: 600; border: 1px solid rgba(0,0,0,0.08); cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 0.8rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                                <span style="font-size: 0.9rem;">{{ Auth::user()->prenom }}</span>
+                                <div style="width: 35px; height: 35px; background: var(--color-accent-1); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                    <i class="bi bi-person-fill"></i>
+                                </div>
+                            </button>
+                            
+                            <!-- Dropdown Menu -->
+                            <div id="userDropdown" style="position: absolute; top: calc(100% + 1rem); right: 0; min-width: 260px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000;">
+                                <div style="background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.12); overflow: hidden; border: 1px solid rgba(0,0,0,0.05);">
+                                    <div style="padding: 1.5rem; background: linear-gradient(135deg, var(--color-accent-1) 0%, var(--color-accent-2) 100%); color: white;">
+                                        <div style="font-size: 1.1rem; font-weight: 700; font-family: var(--font-primary);">{{ Auth::user()->name }}</div>
+                                        <div style="font-size: 0.85rem; opacity: 0.9;">{{ Auth::user()->email }}</div>
+                                    </div>
+                                    <div style="padding: 0.5rem;">
+                                        <a href="{{ route('profile.edit') }}" style="display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1rem; color: var(--color-contrast); text-decoration: none; transition: background 0.2s; border-radius: 8px;">
+                                            <i class="bi bi-person-gear" style="color: var(--color-accent-2);"></i> Mon Profil
+                                        </a>
+                                        <a href="{{ route('mes-achats') }}" style="display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1rem; color: var(--color-contrast); text-decoration: none; transition: background 0.2s; border-radius: 8px;">
+                                            <i class="bi bi-bag-check" style="color: var(--color-accent-2);"></i> Mes Achats
+                                        </a>
+                                        <div style="height: 1px; background: #eee; margin: 0.5rem 1rem;"></div>
+                                        <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
+                                            @csrf
+                                            <button type="submit" style="width: 100%; display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1rem; color: var(--color-accent-4); background: none; border: none; cursor: pointer; font-family: var(--font-secondary); font-size: 0.95rem; text-align: left; border-radius: 8px;">
+                                                <i class="bi bi-box-arrow-right"></i> Déconnexion
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                        @else
-                            <a href="{{ route('login') }}" style="display: inline-flex; align-items: center; gap: 0.65rem; background: #6c757d; color: white; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-                                <i class="bi bi-box-arrow-in-right" style="font-size: 1rem;"></i>
-                                <span>Connexion</span>
-                            </a>
-                        @endauth
-                    </div>
+                        </div>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-primary" style="border-radius: 50px; padding: 0.7rem 1.5rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
+                            <i class="bi bi-person"></i> Connexion
+                        </a>
+                    @endauth
                 </div>
             </div>
         </header>
