@@ -214,7 +214,7 @@
                 }
 
                 function startAutoRotation() {
-                    interval = setInterval(nextSlide, 5000);
+                    interval = setInterval(nextSlide, 30000);
                 }
 
                 function stopAutoRotation() {
