@@ -163,10 +163,10 @@
                 </div>
 
                 <!-- Navigation Controls -->
-                <button id="prevSlide" style="position: absolute; top: 50%; left: -80px; transform: translateY(-50%); background: none; border: none; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--color-accent-1); font-size: 2.5rem; transition: all 0.3s ease; z-index: 10; opacity: 0.7;" onmouseover="this.style.opacity='1'; this.style.transform='translateY(-50%) scale(1.1)'" onmouseout="this.style.opacity='0.7'; this.style.transform='translateY(-50%) scale(1)'">
+                <button id="prevSlide" style="position: absolute; top: 50%; left: -120px; transform: translateY(-50%); background: none; border: none; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--color-accent-1); font-size: 2.5rem; transition: all 0.3s ease; z-index: 10; opacity: 0.7;" onmouseover="this.style.opacity='1'; this.style.transform='translateY(-50%) scale(1.1)'" onmouseout="this.style.opacity='0.7'; this.style.transform='translateY(-50%) scale(1)'">
                     <i class="bi bi-chevron-left"></i>
                 </button>
-                <button id="nextSlide" style="position: absolute; top: 50%; right: -80px; transform: translateY(-50%); background: none; border: none; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--color-accent-1); font-size: 2.5rem; transition: all 0.3s ease; z-index: 10; opacity: 0.7;" onmouseover="this.style.opacity='1'; this.style.transform='translateY(-50%) scale(1.1)'" onmouseout="this.style.opacity='0.7'; this.style.transform='translateY(-50%) scale(1)'">
+                <button id="nextSlide" style="position: absolute; top: 50%; right: -120px; transform: translateY(-50%); background: none; border: none; width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--color-accent-1); font-size: 2.5rem; transition: all 0.3s ease; z-index: 10; opacity: 0.7;" onmouseover="this.style.opacity='1'; this.style.transform='translateY(-50%) scale(1.1)'" onmouseout="this.style.opacity='0.7'; this.style.transform='translateY(-50%) scale(1)'">
                     <i class="bi bi-chevron-right"></i>
                 </button>
             @endif

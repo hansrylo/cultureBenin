@@ -556,7 +556,7 @@
                             </div>
                         </div>
                     @else
-                        <a href="{{ route('login') }}" class="btn btn-primary" style="border-radius: 50px; padding: 0.7rem 1.5rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
+                        <a href="{{ route('login') }}" class="btn" style="background-color: white; color: var(--color-accent-1); border: 1px solid var(--color-accent-1); border-radius: 50px; padding: 0.7rem 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: none;" onmouseover="this.style.backgroundColor='var(--color-accent-1)'; this.style.color='white';" onmouseout="this.style.backgroundColor='white'; this.style.color='var(--color-accent-1)';">
                             <i class="bi bi-person"></i> Connexion
                         </a>
                     @endauth
