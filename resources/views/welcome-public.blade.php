@@ -218,69 +218,7 @@
         </div>
     </section>
 
-    <!-- Régions -->
-    <section class="section animate-slide-up" id="regions" style="background-color: var(--color-accent-3); animation-delay: 0.4s;">
-        <div class="container">
-            <div class="divider"></div>
-            <h2 class="section-title">Explorez nos Régions</h2>
-            <p class="section-subtitle">Découvrez la diversité culturelle à travers les 12 régions du Bénin</p>
-            
-            @if($regions && count($regions) > 0)
-                <div class="grid grid-cols-3">
-                    @foreach($regions->take(12) as $region)
-                        <a href="#" class="card hover-lift" style="cursor: pointer; text-decoration: none; text-align: center; overflow: hidden;">
-                            <div style="background: linear-gradient(135deg, var(--color-accent-2) 0%, var(--color-accent-1) 100%); height: 180px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem;">
-                                🏛️
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">
-                                    {{ $region->nom_region ?? 'Région' }}
-                                </h3>
-                                <p class="card-text" style="font-size: 0.85rem;">
-                                    Découvrez la culture locale
-                                </p>
-                                <div style="margin-top: var(--spacing-md); color: var(--color-accent-2); font-weight: 600; font-size: 0.9rem;">
-                                    En savoir plus →
-                                </div>
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
-            @endif
-        </div>
-    </section>
 
-    <!-- Langues -->
-    <section class="section animate-slide-up" id="langues" style="animation-delay: 0.6s;">
-        <div class="container">
-            <div class="divider"></div>
-            <h2 class="section-title">Nos Langues</h2>
-            <p class="section-subtitle">Explorez la diversité linguistique du Bénin</p>
-            
-            @if($langues && count($langues) > 0)
-                <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
-                    @foreach($langues->take(8) as $langue)
-                        <a href="#" class="card hover-lift" style="cursor: pointer; text-decoration: none; text-align: center;">
-                            <div style="background: linear-gradient(135deg, var(--color-accent-4) 0%, #FFB84D 100%); height: 150px; display: flex; align-items: center; justify-content: center; color: var(--color-accent-1); font-size: 2.5rem;">
-                                <i class="bi bi-translate"></i>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">
-                                    {{ $langue->nom_langue ?? 'Langue' }}
-                                </h3>
-                                <p class="card-text" style="font-size: 0.85rem; color: var(--color-accent-2); font-weight: 600;">
-                                    {{ $langue->code_langue ?? '' }}
-                                </p>
-                                <div style="margin-top: var(--spacing-md); color: var(--color-accent-2); font-weight: 600; font-size: 0.9rem;">
-                                    Découvrir →
-                                </div>
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
-            @endif
-        </div>
-    </section>
 
     <!-- Agenda Culturel -->
     <section class="section animate-slide-up" id="agenda" style="animation-delay: 0.7s; background-color: #fff; position: relative;">
