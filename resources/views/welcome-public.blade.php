@@ -172,21 +172,7 @@
             @endif
         </div>
 
-        <!-- Search Bar -->
-        <div class="container" style="position: relative; z-index: 20; margin-top: -30px;">
-            <div style="background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 800px; margin: 0 auto; display: flex; gap: 1rem; align-items: center;">
-                <form action="{{ route('Home') }}" method="GET" style="display: flex; flex: 1; align-items: center; gap: 1rem; width: 100%;">
-                    <i class="bi bi-search" style="font-size: 1.2rem; color: #999;"></i>
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Rechercher un article, un événement..." style="border: none; outline: none; flex: 1; font-size: 1rem; font-family: 'Outfit', sans-serif;">
-                    <button type="submit" style="background: var(--color-accent-1); color: white; border: none; padding: 0.8rem 2rem; border-radius: 10px; font-weight: 700; cursor: pointer; transition: background 0.3s ease;" onmouseover="this.style.background='var(--color-accent-2)'" onmouseout="this.style.background='var(--color-accent-1)'">
-                        Rechercher
-                    </button>
-                    @if(request('search'))
-                        <a href="{{ route('Home') }}" style="color: #666; text-decoration: none; font-size: 0.9rem;">Réinitialiser</a>
-                    @endif
-                </form>
-            </div>
-        </div>
+
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
