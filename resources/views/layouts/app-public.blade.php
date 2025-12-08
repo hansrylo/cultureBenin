@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Culture Benin')</title>
+    <link rel="icon" href="{{ asset('images/miwakpon-benin-logo.png') }}?v=2" type="image/png">
     
     <!-- Fonts -->
     <!-- Imported via app.css -->
@@ -525,15 +526,26 @@
                         <div style="position: relative;">
                             <button id="userMenuBtn" style="background: white; color: var(--color-contrast); padding: 0.5rem 0.5rem 0.5rem 1rem; border-radius: 50px; font-weight: 600; border: 1px solid rgba(0,0,0,0.08); cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 0.8rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
                                 <span style="font-size: 0.9rem;">{{ Auth::user()->prenom }}</span>
-                                <div style="width: 35px; height: 35px; background: var(--color-accent-1); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                    <i class="bi bi-person-fill"></i>
-                                </div>
+                                @if(Auth::user()->photo)
+                                    <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Profile" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                @else
+                                    <div style="width: 35px; height: 35px; background: var(--color-accent-1); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="bi bi-person-fill"></i>
+                                    </div>
+                                @endif
                             </button>
                             
                             <!-- Dropdown Menu -->
                             <div id="userDropdown" style="position: absolute; top: calc(100% + 1rem); right: 0; min-width: 260px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000;">
                                 <div style="background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.12); overflow: hidden; border: 1px solid rgba(0,0,0,0.05);">
-                                    <div style="padding: 1.5rem; background: linear-gradient(135deg, var(--color-accent-1) 0%, var(--color-accent-2) 100%); color: white;">
+                                    <div style="padding: 1.5rem; background: linear-gradient(135deg, var(--color-accent-1) 0%, var(--color-accent-2) 100%); color: white; text-align: center;">
+                                        @if(Auth::user()->photo)
+                                            <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Profile" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255,255,255,0.3); margin-bottom: 0.5rem;">
+                                        @else
+                                            <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.2); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem; font-size: 1.5rem;">
+                                                <i class="bi bi-person-fill"></i>
+                                            </div>
+                                        @endif
                                         <div style="font-size: 1.1rem; font-weight: 700; font-family: var(--font-primary);">{{ Auth::user()->name }}</div>
                                         <div style="font-size: 0.85rem; opacity: 0.9;">{{ Auth::user()->email }}</div>
                                     </div>
@@ -556,7 +568,7 @@
                             </div>
                         </div>
                     @else
-                        <a href="{{ route('login') }}" class="btn" style="background-color: white; color: var(--color-accent-1); border: 1px solid var(--color-accent-1); border-radius: 50px; padding: 0.7rem 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: none;" onmouseover="this.style.backgroundColor='var(--color-accent-1)'; this.style.color='white';" onmouseout="this.style.backgroundColor='white'; this.style.color='var(--color-accent-1)';">
+                        <a href="{{ route('login') }}" class="btn" style="background-color: transparent; color: var(--color-accent-1); border: 1px solid var(--color-accent-1); border-radius: 0; padding: 0.6rem 1.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='var(--color-accent-1)'; this.style.color='white';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='var(--color-accent-1)';">
                             <i class="bi bi-person"></i> Connexion
                         </a>
                     @endauth

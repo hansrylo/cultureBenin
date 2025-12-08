@@ -4,6 +4,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>AdminLTE v4 | Dashboard</title>
+    <link rel="icon" href="{{ asset('images/miwakpon-benin-logo.png') }}?v=2" type="image/png">
     <!--begin::Accessibility Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <meta name="color-scheme" content="light dark" />
@@ -244,24 +245,25 @@
             <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu">
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                <img
-                  src="{{URL::asset('adminlte/img/user2-160x160.jpg')}}"
-                  class="user-image rounded-circle shadow"
-                  alt="User Image"
-                />
-                <span class="d-none d-md-inline">Alexander Pierce</span>
+                @if(Auth::user()->photo)
+                    <img src="{{ asset('storage/' . Auth::user()->photo) }}" class="user-image rounded-circle shadow" alt="User Image" style="object-fit: cover;">
+                @else
+                    <img src="{{URL::asset('adminlte/img/user2-160x160.jpg')}}" class="user-image rounded-circle shadow" alt="User Image">
+                @endif
+                <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
               </a>
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <!--begin::User Image-->
                 <li class="user-header text-bg-primary">
-                  <img
-                    src="{{URL::asset('adminlte/img/user2-160x160.jpg')}}"
-                    class="rounded-circle shadow"
-                    alt="User Image"
-                  />
+                    @if(Auth::user()->photo)
+                        <img src="{{ asset('storage/' . Auth::user()->photo) }}" class="rounded-circle shadow" alt="User Image" style="object-fit: cover;">
+                    @else
+                        <img src="{{URL::asset('adminlte/img/user2-160x160.jpg')}}" class="rounded-circle shadow" alt="User Image">
+                    @endif
                   <p>
-                    Alexander Pierce - Web Developer
-                    <small>Member since Nov. 2023</small>
+                    {{ Auth::user()->name }}
+                    <small>{{ Auth::user()->role->nom_role ?? 'Utilisateur' }}</small>
+                    <small>Membre depuis {{ Auth::user()->created_at ? Auth::user()->created_at->format('M. Y') : '-' }}</small>
                   </p>
                 </li>
                 <!--end::User Image-->
@@ -278,10 +280,10 @@
                 <!--end::Menu Body-->
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="{{ route('profile.edit') }}" class="btn btn-default btn-flat">Profil</a>
                   <form method="POST" action="{{ route('logout') }}" class="d-inline">
                       @csrf
-                      <button type="submit" class="btn btn-default btn-flat float-end">Sign out</button>
+                      <button type="submit" class="btn btn-default btn-flat float-end">Déconnexion</button>
                   </form>
                 </li>
                 <!--end::Menu Footer-->

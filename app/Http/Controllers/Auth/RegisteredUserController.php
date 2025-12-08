@@ -34,6 +34,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:utilisateurs'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'photo' => ['nullable', 'image', 'max:2048'],
         ]);
 
         // Séparer le nom complet en nom et prénom
@@ -48,6 +49,13 @@ class RegisteredUserController extends Controller
             $defaultRole = Role::first(); // Prendre le premier rôle disponible
         }
 
+        $photoPath = null;
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('photos', 'public');
+            // Ajouter le préfixe storage/ pour l'accès via asset()
+            $photoPath = 'storage/' . $photoPath;
+        }
+
         $user = Utilisateur::create([
             'nom' => $nom,
             'prenom' => $prenom,
@@ -55,6 +63,7 @@ class RegisteredUserController extends Controller
             'mot_de_passe' => Hash::make($request->password),
             'role' => $defaultRole ? $defaultRole->id_role : null,
             'id_langue' => 1, // Langue par défaut (à ajuster selon vos besoins)
+            'photo' => $photoPath,
         ]);
 
         event(new Registered($user));
@@ -62,6 +71,6 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         // Rediriger vers la page d'accueil après inscription
-        return redirect()->route('Home');
+        return redirect()->route('verification.notice');
     }
 }

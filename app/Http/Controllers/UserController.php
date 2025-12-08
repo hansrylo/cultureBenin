@@ -129,6 +129,17 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $utilisateur = Utilisateur::findOrFail($id);
+        
+        // Empêcher la suppression de son propre compte via l'admin pour éviter les accidents
+        if (auth()->id() == $utilisateur->id_utilisateur) {
+            return redirect()->route('utilisateurs.index')
+                             ->with('error', 'Vous ne pouvez pas supprimer votre propre compte depuis cette interface.');
+        }
+
+        $utilisateur->delete();
+
+        return redirect()->route('utilisateurs.index')
+                         ->with('success', 'Utilisateur supprimé avec succès (Soft Delete).');
     }
 }

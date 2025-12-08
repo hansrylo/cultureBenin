@@ -248,6 +248,10 @@
         </script>
     </section>
 
+    </section>
+
+    @include('partials.actualites-section')
+
     <!-- DERNIÈRES PUBLICATIONS Section -->
     <section class="section animate-slide-up" id="contenus" style="background-color: var(--color-accent-3); position: relative; overflow: hidden; animation-delay: 0.2s;">
         <!-- Decorative accent -->
@@ -263,7 +267,7 @@
             
             @if($contenus && count($contenus) > 0)
                 <div class="grid grid-cols-3">
-                    @foreach($contenus->take(12) as $contenu)
+                    @foreach($contenus->take(6) as $contenu)
                         <a href="{{ route('contenu.public.show', $contenu->id_contenu) }}" class="card-link hover-lift" style="text-decoration: none; color: inherit;">
                             <article class="card" style="height: 100%; display: flex; flex-direction: column;">
                                 <div style="height: 200px; overflow: hidden; position: relative;">
@@ -323,83 +327,46 @@
             </div>
 
             <div class="agenda-grid">
-                <!-- Event Card 1 -->
-                <div class="card hover-lift" style="display: flex; flex-direction: column;">
-                    <div style="position: relative; height: 200px; overflow: hidden;">
-                        <div style="background: linear-gradient(135deg, #FF6B6B 0%, #EE5253 100%); width: 100%; height: 100%;"></div>
-                        <div style="position: absolute; top: 1rem; right: 1rem; background: white; padding: 0.5rem 1rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                            <div style="font-weight: 800; font-size: 1.2rem; color: var(--color-accent-1); line-height: 1;">15</div>
-                            <div style="font-size: 0.8rem; text-transform: uppercase; color: #666;">DÉC</div>
+                @if(isset($festivals) && $festivals->count() > 0)
+                    @foreach($festivals as $festival)
+                        <!-- Event Card -->
+                        <div class="card hover-lift" style="display: flex; flex-direction: column;">
+                            <div style="position: relative; height: 200px; overflow: hidden;">
+                                @if($festival->medias && $festival->medias->count() > 0)
+                                    <div style="background-image: url('{{ asset('storage/' . $festival->medias->first()->chemin) }}'); background-size: cover; background-position: center; width: 100%; height: 100%; transition: transform 0.5s ease;" class="hover:scale-110"></div>
+                                @else
+                                    <div style="background: linear-gradient(135deg, #FF6B6B 0%, #EE5253 100%); width: 100%; height: 100%;"></div>
+                                @endif
+                                
+                                <div style="position: absolute; top: 1rem; right: 1rem; background: white; padding: 0.5rem 1rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                                    <div style="font-weight: 800; font-size: 1.2rem; color: var(--color-accent-1); line-height: 1;">{{ $festival->created_at ? $festival->created_at->format('d') : '?' }}</div>
+                                    <div style="font-size: 0.8rem; text-transform: uppercase; color: #666;">{{ $festival->created_at ? $festival->created_at->format('M') : '' }}</div>
+                                </div>
+                                <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
+                                    @if($festival->region)
+                                        <span style="color: white; font-size: 0.8rem; background: rgba(255,255,255,0.2); padding: 0.2rem 0.6rem; border-radius: 20px; backdrop-filter: blur(4px);">
+                                            <i class="bi bi-geo-alt-fill"></i> {{ $festival->region->nom_region }}
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title" style="font-size: 1.2rem;">{{ Str::limit($festival->titre, 40) }}</h3>
+                                <p class="card-text" style="font-size: 0.9rem; color: #666;">{{ Str::limit($festival->texte, 80) }}</p>
+                                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #eee; display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-size: 0.85rem; color: #888;"><i class="bi bi-clock"></i> {{ $festival->created_at ? $festival->created_at->format('H:i') : '' }}</span>
+                                    <a href="{{ route('contenu.public.show', $festival->id_contenu) }}" style="background: none; border: 1px solid var(--color-accent-1); text-decoration: none; color: var(--color-accent-1); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='var(--color-accent-1)'; this.style.color='white'" onmouseout="this.style.background='none'; this.style.color='var(--color-accent-1)'">
+                                        Détails
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                        <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
-                            <span style="color: white; font-size: 0.8rem; background: rgba(255,255,255,0.2); padding: 0.2rem 0.6rem; border-radius: 20px; backdrop-filter: blur(4px);">
-                                <i class="bi bi-geo-alt-fill"></i> Porto-Novo
-                            </span>
-                        </div>
+                    @endforeach
+                @else
+                    <div class="col-12 text-center py-5">
+                        <p class="text-muted">Aucun événement prévu pour le moment.</p>
                     </div>
-                    <div class="card-body">
-                        <h3 class="card-title" style="font-size: 1.2rem;">Festival des Masques Guèlèdè</h3>
-                        <p class="card-text" style="font-size: 0.9rem; color: #666;">Une célébration unique classée au patrimoine de l'UNESCO.</p>
-                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #eee; display: flex; justify-content: space-between; align-items: center;">
-                            <span style="font-size: 0.85rem; color: #888;"><i class="bi bi-clock"></i> 10:00 - 18:00</span>
-                            <button style="background: none; border: 1px solid var(--color-accent-1); color: var(--color-accent-1); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='var(--color-accent-1)'; this.style.color='white'" onmouseout="this.style.background='none'; this.style.color='var(--color-accent-1)'">
-                                Réserver
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Event Card 2 -->
-                <div class="card hover-lift" style="display: flex; flex-direction: column;">
-                    <div style="position: relative; height: 200px; overflow: hidden;">
-                        <div style="background: linear-gradient(135deg, #4ECDC4 0%, #45B7AF 100%); width: 100%; height: 100%;"></div>
-                        <div style="position: absolute; top: 1rem; right: 1rem; background: white; padding: 0.5rem 1rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                            <div style="font-weight: 800; font-size: 1.2rem; color: var(--color-accent-1); line-height: 1;">10</div>
-                            <div style="font-size: 0.8rem; text-transform: uppercase; color: #666;">JAN</div>
-                        </div>
-                        <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
-                            <span style="color: white; font-size: 0.8rem; background: rgba(255,255,255,0.2); padding: 0.2rem 0.6rem; border-radius: 20px; backdrop-filter: blur(4px);">
-                                <i class="bi bi-geo-alt-fill"></i> Ouidah
-                            </span>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title" style="font-size: 1.2rem;">Fête du Vaudou</h3>
-                        <p class="card-text" style="font-size: 0.9rem; color: #666;">La grande rencontre annuelle des divinités et adeptes.</p>
-                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #eee; display: flex; justify-content: space-between; align-items: center;">
-                            <span style="font-size: 0.85rem; color: #888;"><i class="bi bi-clock"></i> Toute la journée</span>
-                            <button style="background: none; border: 1px solid var(--color-accent-1); color: var(--color-accent-1); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='var(--color-accent-1)'; this.style.color='white'" onmouseout="this.style.background='none'; this.style.color='var(--color-accent-1)'">
-                                Réserver
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Event Card 3 -->
-                <div class="card hover-lift" style="display: flex; flex-direction: column;">
-                    <div style="position: relative; height: 200px; overflow: hidden;">
-                        <div style="background: linear-gradient(135deg, #A8D8EA 0%, #AA96DA 100%); width: 100%; height: 100%;"></div>
-                        <div style="position: absolute; top: 1rem; right: 1rem; background: white; padding: 0.5rem 1rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                            <div style="font-weight: 800; font-size: 1.2rem; color: var(--color-accent-1); line-height: 1;">22</div>
-                            <div style="font-size: 0.8rem; text-transform: uppercase; color: #666;">JAN</div>
-                        </div>
-                        <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);">
-                            <span style="color: white; font-size: 0.8rem; background: rgba(255,255,255,0.2); padding: 0.2rem 0.6rem; border-radius: 20px; backdrop-filter: blur(4px);">
-                                <i class="bi bi-geo-alt-fill"></i> Cotonou
-                            </span>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title" style="font-size: 1.2rem;">Exposition Art Contemporain</h3>
-                        <p class="card-text" style="font-size: 0.9rem; color: #666;">Découverte des nouveaux talents béninois.</p>
-                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #eee; display: flex; justify-content: space-between; align-items: center;">
-                            <span style="font-size: 0.85rem; color: #888;"><i class="bi bi-clock"></i> 09:00 - 20:00</span>
-                            <button style="background: none; border: 1px solid var(--color-accent-1); color: var(--color-accent-1); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='var(--color-accent-1)'; this.style.color='white'" onmouseout="this.style.background='none'; this.style.color='var(--color-accent-1)'">
-                                Réserver
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                @endif
             </div>
         </div>
     </section>

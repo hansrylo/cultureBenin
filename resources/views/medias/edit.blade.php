@@ -19,7 +19,7 @@
     background: #fff;
     border: 1px solid #eaeaea;
     border-radius: 6px;
-    overflow: hidden;
+    /* overflow: hidden; Removed to allow scrolling of dropdowns */
 }
 
 .card {
@@ -224,14 +224,19 @@ textarea.form-control {
                         <label for="id_contenu">
                             ID Contenu <span class="required">*</span>
                         </label>
-                        <input 
-                            type="number" 
+                        <select 
                             class="form-control @error('id_contenu') is-invalid @enderror" 
                             id="id_contenu" 
                             name="id_contenu" 
-                            value="{{ old('id_contenu', $media->id_contenu) }}" 
                             required
                         >
+                            <option value="">-- Sélectionnez un contenu --</option>
+                            @foreach($contenus as $contenu)
+                                <option value="{{ $contenu->id_contenu }}" {{ old('id_contenu', $media->id_contenu) == $contenu->id_contenu ? 'selected' : '' }}>
+                                    {{ $contenu->titre }} ({{ $contenu->type->nom ?? 'N/A' }}) - [{{ $contenu->statut }}]
+                                </option>
+                            @endforeach
+                        </select>
                         @error('id_contenu')
                             <small style="color: #dc3545; display: block; margin-top: 0.25rem;">{{ $message }}</small>
                         @enderror

@@ -111,4 +111,9 @@ class Contenu extends Model
         
         return substr($this->texte, 0, $longueur) . '...';
     }
+
+    public function commentaires()
+    {
+        return $this->hasMany(Commentaire::class, 'id_contenu', 'id_contenu')->orderBy('created_at', 'desc');
+    }
 }

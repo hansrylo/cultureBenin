@@ -14,14 +14,28 @@ class VerifyEmailController extends Controller
      */
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+        // Vérifier si l'utilisateur existe
+        if (!$request->user()) {
+            return redirect()->route('login')
+                ->withErrors(['email' => 'Utilisateur non trouvé. Veuillez vous reconnecter.']);
         }
 
+        // Vérifier si l'email est déjà vérifié
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect()->intended(route('Home', absolute: false))
+                ->with('info', 'Votre email est déjà vérifié.');
+        }
+
+        // Marquer l'email comme vérifié
         if ($request->user()->markEmailAsVerified()) {
             event(new Verified($request->user()));
+            
+            return redirect()->intended(route('Home', absolute: false).'?verified=1')
+                ->with('success', 'Votre email a été vérifié avec succès !');
         }
 
-        return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+        // Si la vérification échoue pour une raison quelconque
+        return redirect()->route('verification.notice')
+            ->withErrors(['email' => 'La vérification de votre email a échoué. Veuillez réessayer.']);
     }
 }

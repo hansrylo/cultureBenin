@@ -25,13 +25,33 @@ class HomeController extends Controller
             ->latest('date_creation')
             ->get();
             
+        // Festivals pour l'agenda
+        $festivals = Contenu::with(['type', 'medias', 'region'])
+            ->whereHas('type', function($q) {
+                $q->where('nom', 'Festival');
+            })
+            ->where('statut', 'validé')
+            ->latest('created_at')
+            ->take(3)
+            ->get();
+
+        // Actualités
+        $actualites = Contenu::with(['type', 'medias', 'auteur'])
+            ->whereHas('type', function($q) {
+                $q->where('nom', 'Actualités');
+            })
+            ->where('statut', 'validé')
+            ->latest('created_at')
+            ->take(4)
+            ->get();
+            
         $regions = Region::all();
         $langues = Langue::all();
         $stats_contenus = Contenu::count();
         $stats_langues = Langue::count();
         $stats_regions = Region::count();
         
-        return view('welcome-public', compact('featured', 'featuredMedias', 'contenus', 'regions', 'langues'));
+        return view('welcome-public', compact('featured', 'featuredMedias', 'contenus', 'regions', 'langues', 'festivals', 'actualites'));
     }
 
     public function show($id)

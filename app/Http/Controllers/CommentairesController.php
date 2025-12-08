@@ -77,4 +77,27 @@ class CommentairesController extends Controller
     public function destroy(string $id){
         //
     }
+
+    /**
+     * Store a public comment from the content page.
+     */
+    public function storePublic(Request $request, $idContenu)
+    {
+        $request->validate([
+            'texte' => 'required|string|max:1000',
+        ]);
+
+        if (!auth()->check()) {
+            return redirect()->route('login')->with('error', 'Vous devez être connecté pour commenter.');
+        }
+
+        Commentaire::create([
+            'texte' => $request->texte,
+            'date' => now(),
+            'id_utilisateur' => auth()->user()->id_utilisateur,
+            'id_contenu' => $idContenu,
+        ]);
+
+        return redirect()->back()->with('success', 'Votre commentaire a été ajouté avec succès.');
+    }
 }

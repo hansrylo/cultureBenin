@@ -6,7 +6,7 @@
         <div class="card-body">
             <p class="login-box-msg">Créer un nouveau compte</p>
 
-            <form method="POST" action="{{ route('register') }}">
+            <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                 @csrf
 
                 <!-- Name -->
@@ -29,6 +29,19 @@
                         <span class="bi bi-envelope"></span>
                     </div>
                     @error('email')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <!-- Photo -->
+                <div class="input-group mb-3">
+                    <input type="file" name="photo" class="form-control @error('photo') is-invalid @enderror" accept="image/*">
+                    <div class="input-group-text">
+                        <span class="bi bi-image"></span>
+                    </div>
+                    @error('photo')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>

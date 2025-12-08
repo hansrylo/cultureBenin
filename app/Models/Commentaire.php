@@ -21,4 +21,13 @@ class Commentaire extends Model
         'id_utilisateur',
         'id_contenu'
     ];
+    public function utilisateur()
+    {
+        return $this->belongsTo(Utilisateur::class, 'id_utilisateur');
+    }
+
+    public function contenu()
+    {
+        return $this->belongsTo(Contenu::class, 'id_contenu');
+    }
 }

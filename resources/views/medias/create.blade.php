@@ -19,7 +19,7 @@
     background: #fff;
     border: 1px solid #eaeaea;
     border-radius: 6px;
-    overflow: hidden;
+    /* overflow: hidden; Removed to allow scrolling of dropdowns */
 }
 
 .card {
@@ -191,11 +191,11 @@ textarea.form-control {
                             class="form-control @error('fichier') is-invalid @enderror" 
                             id="fichier" 
                             name="fichier" 
-                            accept="image/*,video/*"
+                            accept="image/*,video/*,application/pdf,.webp"
                             required
                             onchange="previewFile(this)"
                         >
-                        <small class="form-text">Formats acceptés : JPEG, PNG, GIF, MP4, WEBM (max 10MB)</small>
+                        <small class="form-text">Formats acceptés : JPEG, PNG, GIF, WEBM, PDF, MP4 (max 10MB)</small>
                         @error('fichier')
                             <small style="color: #dc3545; display: block; margin-top: 0.25rem;">{{ $message }}</small>
                         @enderror
@@ -216,7 +216,7 @@ textarea.form-control {
                             <option value="">-- Sélectionnez un contenu --</option>
                             @foreach($contenus as $contenu)
                                 <option value="{{ $contenu->id_contenu }}" {{ old('id_contenu') == $contenu->id_contenu ? 'selected' : '' }}>
-                                    {{ $contenu->titre }} ({{ $contenu->type->nom ?? 'N/A' }})
+                                    {{ $contenu->titre }} ({{ $contenu->type->nom ?? 'N/A' }}) - [{{ $contenu->statut }}]
                                 </option>
                             @endforeach
                         </select>
@@ -272,6 +272,8 @@ function previewFile(input) {
                 preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
             } else if (file.type.startsWith('video/')) {
                 preview.innerHTML = `<video controls><source src="${e.target.result}" type="${file.type}"></video>`;
+            } else if (file.type === 'application/pdf') {
+                preview.innerHTML = `<embed src="${e.target.result}" type="application/pdf" width="100%" height="400px" />`;
             }
         };
         

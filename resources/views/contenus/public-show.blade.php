@@ -58,10 +58,47 @@
                 @endif
             </div>
 
-            <!-- Featured Image -->
+            <!-- Featured Media (Hero) -->
             @if($contenu->medias && $contenu->medias->count() > 0)
-                <div style="width: 100%; height: 500px; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-bottom: 4rem;">
-                    <img src="{{ asset('storage/' . $contenu->medias->first()->chemin) }}" alt="{{ $contenu->titre }}" style="width: 100%; height: 100%; object-fit: cover;">
+                @php
+                    $firstMedia = $contenu->medias->first();
+                    $extension = pathinfo($firstMedia->chemin, PATHINFO_EXTENSION);
+                    $isVideo = in_array(strtolower($extension), ['mp4', 'webm', 'avi', 'mov']);
+                @endphp
+                <style>
+                    @keyframes ambient-glow-entry {
+                        0% { opacity: 0; transform: scale(0.95); }
+                        100% { opacity: 1; transform: scale(1.15); } /* Increased scale and opacity */
+                    }
+                    @keyframes ambient-pulse {
+                        0% { opacity: 0.8; transform: scale(1.15); }
+                        50% { opacity: 0.5; transform: scale(1.1); }
+                        100% { opacity: 0.8; transform: scale(1.15); }
+                    }
+                </style>
+                <div style="position: relative; margin-bottom: 6rem; isolation: isolate;"> <!-- Increased margin for bleed -->
+                    <!-- Ambient Glow Layer -->
+                    <div style="position: absolute; inset: 0; z-index: -1; filter: blur(60px) saturate(2); animation: ambient-glow-entry 1.5s ease-out forwards, ambient-pulse 5s ease-in-out infinite 1.5s; opacity: 0.8; transform: scale(1.15);">
+                        @if($isVideo)
+                            <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                                <source src="{{ asset('storage/' . $firstMedia->chemin) }}" type="video/{{ $extension }}">
+                            </video>
+                        @else
+                            <img src="{{ asset('storage/' . $firstMedia->chemin) }}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                        @endif
+                    </div>
+
+                    <!-- Main Hero Media -->
+                    <div style="width: 100%; height: 500px; border-radius: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); position: relative; z-index: 2; background: #000;">
+                        @if($isVideo)
+                            <video controls style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
+                                <source src="{{ asset('storage/' . $firstMedia->chemin) }}" type="video/{{ $extension }}">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        @else
+                            <img src="{{ asset('storage/' . $firstMedia->chemin) }}" alt="{{ $contenu->titre }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
+                        @endif
+                    </div>
                 </div>
             @endif
         </div>
@@ -143,6 +180,208 @@
                         {{ $contenu->langue->nom_langue }}
                     </span>
                 @endif
+            </div>
+        </div>
+    </section>
+
+    <!-- Media Gallery Section -->
+    @if($contenu->medias && $contenu->medias->count() > 1)
+        <section style="padding: 2rem 2rem 6rem 2rem; background-color: var(--color-accent-3);">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <h3 style="font-family: 'Poppins', sans-serif; font-size: 2rem; font-weight: 700; color: var(--color-accent-1); margin-bottom: 2rem; text-align: center;">
+                    Galerie Média
+                </h3>
+                <p style="text-align: center; margin-bottom: 3rem; color: #666;">Découvrez plus d'images et vidéos sur ce sujet.</p>
+                
+                <div class="gallery-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+                    @foreach($contenu->medias->skip(1) as $index => $media)
+                        @php
+                            $ext = pathinfo($media->chemin, PATHINFO_EXTENSION);
+                            $isVid = in_array(strtolower($ext), ['mp4', 'webm', 'avi', 'mov']);
+                            $isPdf = strtolower($ext) === 'pdf';
+                        @endphp
+                        
+                        <div class="gallery-item" style="position: relative; height: 250px; border-radius: 12px; overflow: hidden; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onclick="{{ $isPdf ? '' : ($isVid ? '' : 'openLightbox(this)') }}">
+                            @if($isVid)
+                                <video controls style="width: 100%; height: 100%; object-fit: cover;">
+                                    <source src="{{ asset('storage/' . $media->chemin) }}" type="video/{{ $ext }}">
+                                </video>
+                                <div style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem;">
+                                    <i class="bi bi-play-fill"></i> Vidéo
+                                </div>
+                            @elseif($isPdf)
+                                <div style="width: 100%; height: 100%; background: #f0f0f0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding: 1rem; text-align: center;">
+                                    <i class="bi bi-file-earmark-pdf-fill" style="font-size: 3rem; color: #dc3545;"></i>
+                                    <span style="font-size: 0.9rem; font-weight: 600;">Document PDF</span>
+                                    <a href="{{ asset('storage/' . $media->chemin) }}" target="_blank" class="btn btn-sm" style="background: var(--color-accent-1); color: white; padding: 0.5rem 1rem; border-radius: 20px; text-decoration: none; font-size: 0.8rem;">
+                                        Voir le document
+                                    </a>
+                                </div>
+                            @else
+                                <img src="{{ asset('storage/' . $media->chemin) }}" alt="Galerie image" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" class="gallery-img">
+                                <div class="overlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center;">
+                                    <i class="bi bi-zoom-in" style="color: white; font-size: 2rem;"></i>
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        <!-- Lightbox Modal -->
+        <div id="lightbox" style="position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;">
+            <button onclick="closeLightbox()" style="position: absolute; top: 2rem; right: 2rem; background: none; border: none; color: white; font-size: 3rem; cursor: pointer; z-index: 10000;">&times;</button>
+            <button onclick="prevImage()" style="position: absolute; left: 2rem; background: none; border: none; color: white; font-size: 3rem; cursor: pointer; z-index: 10000; padding: 1rem;">&#10094;</button>
+            <button onclick="nextImage()" style="position: absolute; right: 2rem; background: none; border: none; color: white; font-size: 3rem; cursor: pointer; z-index: 10000; padding: 1rem;">&#10095;</button>
+            
+            <img id="lightbox-img" src="" alt="Full view" style="max-width: 90%; max-height: 90vh; border-radius: 4px; box-shadow: 0 0 50px rgba(0,0,0,0.5);">
+        </div>
+
+        <script>
+            let currentImageIndex = 0;
+            const images = [
+                @foreach($contenu->medias->skip(1) as $media)
+                    @php
+                        $ext = pathinfo($media->chemin, PATHINFO_EXTENSION);
+                        $isImg = !in_array(strtolower($ext), ['mp4', 'webm', 'avi', 'mov', 'pdf']);
+                    @endphp
+                    @if($isImg)
+                        "{{ asset('storage/' . $media->chemin) }}",
+                    @endif
+                @endforeach
+            ];
+
+            function openLightbox(element) {
+                const img = element.querySelector('img');
+                if (!img) return;
+                
+                const src = img.src;
+                currentImageIndex = images.indexOf(src);
+                
+                const lightbox = document.getElementById('lightbox');
+                const lightboxImg = document.getElementById('lightbox-img');
+                
+                lightboxImg.src = src;
+                lightbox.style.display = 'flex';
+                // Trigger reflow
+                lightbox.offsetHeight;
+                lightbox.style.opacity = '1';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            }
+
+            function closeLightbox() {
+                const lightbox = document.getElementById('lightbox');
+                lightbox.style.opacity = '0';
+                setTimeout(() => {
+                    lightbox.style.display = 'none';
+                    document.body.style.overflow = 'auto'; // Restore scrolling
+                }, 300);
+            }
+
+            function showImage(index) {
+                if (index < 0) index = images.length - 1;
+                if (index >= images.length) index = 0;
+                
+                currentImageIndex = index;
+                const lightboxImg = document.getElementById('lightbox-img');
+                lightboxImg.style.opacity = '0.5';
+                
+                setTimeout(() => {
+                    lightboxImg.src = images[currentImageIndex];
+                    lightboxImg.style.opacity = '1';
+                }, 200);
+            }
+
+            function nextImage() {
+                showImage(currentImageIndex + 1);
+            }
+
+            function prevImage() {
+                showImage(currentImageIndex - 1);
+            }
+            
+            // Hover effects via JS since style block is clean
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                if(item.querySelector('.overlay')) {
+                    item.addEventListener('mouseenter', () => {
+                        item.querySelector('.overlay').style.opacity = '1';
+                        item.querySelector('img').style.transform = 'scale(1.1)';
+                    });
+                    item.addEventListener('mouseleave', () => {
+                        item.querySelector('.overlay').style.opacity = '0';
+                        item.querySelector('img').style.transform = 'scale(1)';
+                    });
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (document.getElementById('lightbox').style.display === 'flex') {
+                    if (e.key === 'Escape') closeLightbox();
+                    if (e.key === 'ArrowLeft') prevImage();
+                    if (e.key === 'ArrowRight') nextImage();
+                }
+            });
+        </script>
+    @endif
+
+    </section>
+
+    <!-- Comments Section -->
+    <section style="padding: 2rem 2rem 6rem 2rem; background-color: #fff; border-top: 1px solid #eee;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h3 style="font-family: 'Poppins', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--color-accent-1); margin-bottom: 2rem;">
+                Commentaires ({{ $contenu->commentaires->count() }})
+            </h3>
+
+            <!-- Comment Form -->
+            @auth
+                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 12px; margin-bottom: 3rem;">
+                    <form action="{{ route('commentaires.storePublic', $contenu->id_contenu) }}" method="POST">
+                        @csrf
+                        <div style="margin-bottom: 1rem;">
+                            <label for="texte" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #555;">Votre réaction</label>
+                            <textarea name="texte" id="texte" rows="3" class="form-control" required placeholder="Partagez votre avis sur ce contenu..." style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; resize: vertical;"></textarea>
+                        </div>
+                        <div style="text-align: right;">
+                            <button type="submit" style="background-color: var(--color-accent-1); color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 50px; font-weight: 600; cursor: pointer; transition: background 0.2s;">
+                                Publier
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            @else
+                <div style="text-align: center; background: #f8f9fa; padding: 2rem; border-radius: 12px; margin-bottom: 3rem;">
+                    <p style="margin-bottom: 1rem; color: #666;">Connectez-vous pour partager votre avis.</p>
+                    <a href="{{ route('login') }}" style="display: inline-block; background-color: var(--color-accent-1); color: white; padding: 0.6rem 1.5rem; border-radius: 50px; font-weight: 600; text-decoration: none;">
+                        Se connecter
+                    </a>
+                </div>
+            @endauth
+
+            <!-- Comments List -->
+            <div class="comments-list">
+                @forelse($contenu->commentaires as $commentaire)
+                    <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                        <div style="flex-shrink: 0;">
+                            <div style="width: 45px; height: 45px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #888;">
+                                {{ substr($commentaire->utilisateur->name ?? 'A', 0, 1) }}
+                            </div>
+                        </div>
+                        <div style="flex-grow: 1;">
+                            <div style="background: #f8f9fa; padding: 1rem; border-radius: 12px; border-top-left-radius: 0;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <h5 style="margin: 0; font-size: 0.95rem; font-weight: 700; color: #333;">{{ $commentaire->utilisateur->name ?? 'Anonyme' }}</h5>
+                                    <span style="font-size: 0.8rem; color: #999;">{{ $commentaire->created_at ? $commentaire->created_at->diffForHumans() : $commentaire->date }}</span>
+                                </div>
+                                <p style="margin: 0; color: #555; line-height: 1.5;">{{ $commentaire->texte }}</p>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <p style="text-align: center; color: #999; font-style: italic;">Soyez le premier à commenter !</p>
+                @endforelse
             </div>
         </div>
     </section>

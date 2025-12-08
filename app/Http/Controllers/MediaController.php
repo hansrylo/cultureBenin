@@ -21,7 +21,7 @@ class MediaController extends Controller
      */
     public function create()
     {
-        $contenus = \App\Models\Contenu::with('type')->where('statut', 'validé')->get();
+        $contenus = \App\Models\Contenu::with('type')->get();
         return view('medias.create', compact('contenus'));
     }
 
@@ -31,7 +31,7 @@ class MediaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'fichier' => 'required|file|mimes:jpeg,png,jpg,gif,svg,mp4,webm,avi,mov|max:10240',
+            'fichier' => 'required|file|mimes:jpeg,png,jpg,gif,svg,mp4,webm,avi,mov,webp,pdf|max:10240',
             'id_contenu' => 'required|exists:contenus,id_contenu',
             'description' => 'nullable|string|max:500',
         ]);
@@ -65,8 +65,9 @@ class MediaController extends Controller
     public function edit(string $id)
     {
         $media = Media::findOrFail($id);
+        $contenus = \App\Models\Contenu::with('type')->get();
 
-        return view('medias.edit', compact('media'));
+        return view('medias.edit', compact('media', 'contenus'));
     }
 
     /**

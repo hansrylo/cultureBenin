@@ -650,7 +650,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="btn-action btn-delete" title="Supprimer"
-                                            onclick="showDeleteModal('{{ $utilisateur->id_utilisateur }}', '{{ $utilisateur->nom }} {{ $utilisateur->prenom }}')">
+                                            onclick="showDeleteModal('{{ route('utilisateurs.destroy', $utilisateur->id_utilisateur) }}', '{{ $utilisateur->nom }} {{ $utilisateur->prenom }}')">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
@@ -723,12 +723,13 @@
         });
     });
 
-    function showDeleteModal(id, name) {
+    function showDeleteModal(url, name) {
         const modal = document.getElementById('deleteModal');
         const form = document.getElementById('deleteForm');
         const nameSpan = document.getElementById('userName');
         
-        form.action = `/utilisateurs/${id}`;
+        console.log('URL de suppression:', url); // Debug
+        form.action = url;
         nameSpan.textContent = name;
         modal.classList.add('active');
     }
