@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : jeu. 04 déc. 2025 à 01:31
+-- Généré le : lun. 08 déc. 2025 à 08:00
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -37,6 +37,13 @@ CREATE TABLE `achats_contenus` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Déchargement des données de la table `achats_contenus`
+--
+
+INSERT INTO `achats_contenus` (`id`, `id_utilisateur`, `id_contenu`, `id_paiement`, `date_achat`, `created_at`, `updated_at`) VALUES
+(1, 8, 11, 6, '2025-12-07 13:14:14', '2025-12-07 13:14:14', '2025-12-07 13:14:14');
+
 -- --------------------------------------------------------
 
 --
@@ -48,6 +55,16 @@ CREATE TABLE `cache` (
   `value` mediumtext NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `cache`
+--
+
+INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
+('laravel-cache-da4b9237bacccdf19c0760cab7aec4a8359010b0', 'i:1;', 1765105225),
+('laravel-cache-da4b9237bacccdf19c0760cab7aec4a8359010b0:timer', 'i:1765105225;', 1765105225),
+('laravel-cache-fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', 'i:1;', 1765113160),
+('laravel-cache-fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f:timer', 'i:1765113160;', 1765113160);
 
 -- --------------------------------------------------------
 
@@ -85,7 +102,8 @@ CREATE TABLE `commentaires` (
 
 INSERT INTO `commentaires` (`id_commentaire`, `texte`, `date`, `note`, `id_utilisateur`, `id_contenu`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (3, 'J\'adore assez ce contenu, c\'est une très belle vulgarisation!', '2025-11-24 10:50:57', 6, 1, 1, NULL, NULL, NULL),
-(4, 'éffectivement c\'est une intÉressante facon de voir les choses, c\'est notre culture aprèS tout!', '2025-11-24 00:00:00', 6, 1, 1, NULL, NULL, NULL);
+(4, 'éffectivement c\'est une intÉressante facon de voir les choses, c\'est notre culture aprèS tout!', '2025-11-24 00:00:00', 6, 1, 1, NULL, NULL, NULL),
+(5, 'J\'aime bien cette nouvelle initiative', '2025-12-08 00:24:31', NULL, 2, 15, '2025-12-07 23:24:31', '2025-12-07 23:24:31', NULL);
 
 -- --------------------------------------------------------
 
@@ -122,7 +140,12 @@ INSERT INTO `contenus` (`id_contenu`, `titre`, `id_type`, `texte`, `date_creatio
 (7, 'Decouvrez l\'un des repas les plus historiques du Bénin.', 3, 'Un repas et un une recette qui ont traversés les années, les générations et qui continuent de nous faire saliver rien qu\'en pensant qu\'on y goutera dans la journée avec une délicieuse sauce d\'arachide.', '2025-11-25 22:58:18', 'validé', 0, NULL, 3, 9, 3, NULL, NULL, NULL, '2025-11-25 21:58:18', '2025-11-25 21:58:18'),
 (8, 'La fête du vodoun', 2, 'La fête du vodoun est organisée tout le temps au Bénin en Janvier le 10 pour célébrer la tradition.', '2025-11-26 11:24:16', 'validé', 0, NULL, 2, 4, 3, 1, NULL, NULL, '2025-11-26 10:24:16', '2025-11-26 10:24:16'),
 (9, 'L\'histoire derriere la maginque place de l\'étoile rouge', 2, 'La place de l\'étoile est une place significative au Bénin, logé au niveau de l\'un des carrefour les plus fréquentés du Bénin, il s\'agit d\'une place qui tient bien son nom de ce qu\'elle symbolise, le rouge du sang versé. Le sang versé de soldat qui se sont battus contre l\'invasion de missionnaire pour protégé leur héritage au péril de leur vie! Alors quoi de plus emblématique que d\'ériger une magnifique statut de ces combattants entourré par cette même occasion d\'une place comomérative tout ce qui a de plus emblematique.', '2025-11-30 16:41:55', 'validé', 0, NULL, 2, 10, 6, NULL, NULL, NULL, '2025-11-30 15:41:55', '2025-11-30 15:41:55'),
-(10, 'A la decouverte groove chill fest', 1, 'Le Groove chill fest est le rassemblement festival annuel, qui suit la célébration de la fête de l\'indépendance, fête qui se tient chaque soirée de chaque 01 Août au Bénin, à Cotonou, au palais des congrès. C\'est l\'occasion de bouger, en repensant une indépendance récupérée y a plus de 65 ans donc!', '2025-11-30 16:48:54', 'validé', 1, 100.00, 2, 6, 5, NULL, NULL, NULL, '2025-11-30 15:48:54', '2025-12-03 12:43:37');
+(10, 'A la decouverte groove chill fest', 1, 'Le Groove chill fest est le rassemblement festival annuel, qui suit la célébration de la fête de l\'indépendance, fête qui se tient chaque soirée de chaque 01 Août au Bénin, à Cotonou, au palais des congrès. C\'est l\'occasion de bouger, en repensant une indépendance récupérée y a plus de 65 ans donc!', '2025-11-30 16:48:54', 'validé', 1, 100.00, 2, 6, 5, NULL, NULL, NULL, '2025-11-30 15:48:54', '2025-12-03 12:43:37'),
+(11, 'Les Vodun Days vous ouvrent leurs portes à Ouidah !', 4, 'Vibrez au rythme des traditions ancestrales et de la spiritualité vivante ! , la cité historique de Ouidah, berceau mondial du Vodun, devient la capitale des arts, de la culture et de la spiritualité africaine.\r\nCorps du texte :\r\nLe Bénin redéfinit le narratif autour du Vodun et vous invite à une expérience immersive unique. Loin des clichés, les Vodun Days sont une célébration vibrante, un pont entre tradition et modernité, où se mêlent rituels sacrés, performances artistiques contemporaines, concerts endiablés et démonstrations culturelles.\r\nDécouvrez les secrets des couvents, assistez à la danse fascinante des Zangbéto (gardiens de nuit), participez à des conférences enrichissantes et goûtez à la richesse de la gastronomie locale. Cet événement d\'envergure internationale vise à démystifier et à valoriser un patrimoine immatériel exceptionnel, cœur de l\'identité béninoise.\r\nQue vous soyez passionné d\'histoire, de culture ou simplement en quête d\'une expérience de voyage inoubliable, les Vodun Days sont le rendez-vous à ne pas manquer pour toucher du doigt l\'âme profonde du Bénin.', '2025-12-07 13:06:09', 'validé', 1, 200.00, 2, 5, 3, NULL, NULL, NULL, '2025-12-07 12:06:09', '2025-12-07 12:06:09'),
+(12, 'Le gouvernement annonce avoir déjoué une tentative de coup d\'État', 5, 'Les autorités béninoises ont affirmé ce dimanche 7 décembre 2025 avoir mis en échec une tentative de coup d\'État visant à renverser le président Patrice Talon. La situation, qui a généré une vive tension dans la capitale économique Cotonou, serait désormais sous contrôle selon le gouvernement, bien que la situation soit restée volatile pendant une partie de la journée.\r\nDéroulement des événements\r\nDans la matinée du dimanche, un groupe d\'une douzaine de soldats armés, se présentant comme le \"Comité militaire pour la refondation\" (CMR), a fait irruption dans les locaux de la télévision et de la radio d\'État (ORTB). Ils ont annoncé la destitution du président Patrice Talon, la suspension de la Constitution et la dissolution de toutes les institutions et partis politiques. Le lieutenant-colonel Pascal Tigri a été désigné comme \"président\" de ce comité.\r\nPeu de temps après cette annonce, le ministre de l\'Intérieur, Alassane Seidou, est intervenu à la télévision pour démentir la prise de pouvoir, qualifiant l\'action de \"mutinerie\" visant à \"déstabiliser le pays et ses institutions\". Il a assuré que les forces armées loyalistes avaient maintenu le contrôle de la situation et déjoué la manœuvre. Des coups de feu ont été entendus autour de la résidence présidentielle et dans d\'autres quartiers de Cotonou, mais les putschistes n\'auraient pas réussi à prendre les bureaux présidentiels.\r\nContexte et réactions', '2025-12-07 23:25:28', 'validé', 0, NULL, 2, 5, 6, NULL, NULL, NULL, '2025-12-07 22:25:28', '2025-12-07 22:25:28'),
+(13, 'Le Bénin : Plateforme de services numériques de l\'Afrique de l\'Ouest', 5, 'Le Bénin s\'est engagé dans une vaste stratégie de transformation numérique visant à faire des technologies de l\'information et de la communication (TIC) un levier majeur de son développement socio-économique. Le gouvernement du président Patrice Talon a érigé le numérique en priorité nationale dans ses différents Programmes d\'Action (PAG), avec l\'ambition affichée de positionner le pays comme un pôle d\'excellence numérique régional.\r\nLes piliers de la stratégie numérique béninoise\r\nLe plan numérique du Bénin s\'articule autour de plusieurs réformes et projets structurants, gérés en grande partie par le Ministère du Numérique et de la Digitalisation et l\'Agence des Systèmes d\'Information et du Numérique (ASIN).\r\n1. Gouvernance et services publics numériques (e-gouvernement)\r\nUne priorité majeure est la digitalisation de l\'administration pour améliorer l\'efficacité et la transparence.\r\nPortail unique des services publics : Le site service-public.bj offre un accès en ligne à plus de 250 services administratifs pour les citoyens et les entreprises, simplifiant les démarches.\r\nInteropérabilité : Des plateformes facilitent l\'échange de données entre les différentes administrations de l\'État.', '2025-12-07 23:33:26', 'validé', 0, NULL, 2, 5, 7, NULL, NULL, NULL, '2025-12-07 22:33:26', '2025-12-07 22:33:26'),
+(14, 'Le Festival International des Arts du Bénin (FInAB) : Un carrefour vibrant de la créativité ouest-africaine', 4, 'Le Festival International des Arts du Bénin (FInAB) s\'est rapidement imposé comme un événement culturel majeur sur la scène ouest-africaine. Lancé pour la première fois en 2021, ce festival ambitieux vise à célébrer la richesse et la diversité des expressions artistiques contemporaines du Bénin et de la diaspora, tout en favorisant les échanges culturels internationaux.\r\nUne plateforme multidisciplinaire\r\nLe FInAB se distingue par son approche pluridisciplinaire, couvrant un large éventail de domaines artistiques :\r\nArts visuels : Expositions de peinture, sculpture, photographie et installations contemporaines.\r\nArts de la scène : Représentations de théâtre, danse contemporaine et traditionnelle.\r\nMusique : Concerts mêlant genres traditionnels béninois (comme le Zoblazo ou le Tchinkounmè) et sonorités modernes (afrobeat, jazz).\r\nLittérature et cinéma : Projections de films, ateliers d\'écriture et rencontres avec des auteurs.\r\nL\'événement attire des artistes de renom ainsi que de jeunes talents émergents, offrant une visibilité unique à la créativité locale.', '2025-12-07 23:39:42', 'validé', 1, 300.00, 2, 5, 5, NULL, NULL, NULL, '2025-12-07 22:39:42', '2025-12-07 22:55:55'),
+(15, 'Le Cotonou Comedy Festival (CCF) : Le rendez-vous annuel de l\'humour au Bénin', 4, 'Le Cotonou Comedy Festival (CCF) s\'impose comme l\'événement phare de la scène humoristique au Bénin et dans la sous-région ouest-africaine. Lancé avec succès pour la première fois en 2021, ce festival a pour vocation de célébrer l\'humour sous toutes ses formes, offrant une plateforme d\'expression unique aux talents locaux et accueillant des figures emblématiques de l\'humour francophone international.\r\nUn événement qui gagne en popularité\r\nCréé par l\'humoriste béninois Elifaz, le CCF attire chaque année un public de plus en plus nombreux, désireux de partager des moments de rire et de détente. Le festival se déroule généralement sur plusieurs jours dans différents lieux de Cotonou, notamment le Palais des Congrès, qui devient l\'épicentre de la comédie béninoise le temps de l\'événement.\r\nAu programme : Diversité et découverte\r\nLa programmation du Cotonou Comedy Festival est riche et variée, s\'adressant à tous les goûts :\r\nPlateaux d\'humoristes : Des soirées de gala réunissant des stars confirmées de l\'humour venues de Côte d\'Ivoire, du Cameroun, du Togo, du Gabon, de France et bien sûr du Bénin.\r\nScènes ouvertes : Une opportunité pour les jeunes humoristes émergents de monter sur scène, de se produire devant un public et de se faire repérer.\r\nAteliers et masters classes : Des moments de partage et de formation pour les aspirants comédiens, animés par des professionnels du secteur.\r\nOne-man shows : Des spectacles solo permettant de découvrir l\'univers personnel d\'un artiste.\r\nLe festival met en avant une diversité de styles, allant du stand-up aux sketches théâtralisés, et aborde des thèmes variés liés à la société africaine contemporaine, à la politique et à la vie quotidienne, toujours avec finesse et autodérision.\r\nImpact culturel et perspectives\r\nLe CCF joue un rôle crucial dans la structuration et la professionnalisation du secteur de l\'humour au Bénin. Il contribue non seulement au divertissement de la population, mais aussi au développement d\'une industrie culturelle dynamique capable de générer des emplois.\r\nEn s\'inscrivant dans le calendrier culturel béninois, le festival renforce l\'attractivité de Cotonou et participe au rayonnement culturel du pays à l\'échelle internationale.\r\nPour connaître les dates de la prochaine édition, la programmation détaillée ou pour prendre vos places, il est conseillé de consulter les réseaux sociaux officiels du festival ou le site web dédié au Cotonou Comedy Festival (si disponible, l\'URL est indicative).', '2025-12-08 00:11:22', 'validé', 1, 200.00, 2, 5, 6, NULL, NULL, NULL, '2025-12-07 23:11:22', '2025-12-07 23:11:22');
 
 -- --------------------------------------------------------
 
@@ -244,7 +267,15 @@ INSERT INTO `medias` (`id_media`, `chemin`, `description`, `id_type`, `id_conten
 (13, 'medias/bCWCVr8lYQ0VIPOVbPqXujQhPQLBEWbPEDGkxMB5.jpg', NULL, NULL, 8, '2025-11-26 10:32:44', '2025-11-26 10:32:44', NULL),
 (14, 'medias/JGoPJRmyoY1C8CCy9NCR8JUHBxVY2Epzs6oDCFpy.jpg', NULL, NULL, 8, '2025-11-26 10:33:05', '2025-11-26 10:33:05', NULL),
 (15, 'medias/4RexH7i1L6IdAFSOCMH6FPyYpAItv8lk8tdPHgI0.jpg', NULL, NULL, 9, '2025-11-30 15:42:34', '2025-11-30 15:42:34', NULL),
-(16, 'medias/maAvzo7myWZe1D7vpnuKg3u6EtfvTLMB1vAT3658.jpg', NULL, NULL, 10, '2025-11-30 15:49:30', '2025-11-30 15:49:30', NULL);
+(16, 'medias/maAvzo7myWZe1D7vpnuKg3u6EtfvTLMB1vAT3658.jpg', NULL, NULL, 10, '2025-11-30 15:49:30', '2025-11-30 15:49:30', NULL),
+(17, 'medias/lr9Z7F76w0DudztsjiNaEByKK6RmmDl49gLMPhuP.jpg', NULL, NULL, 11, '2025-12-07 12:07:32', '2025-12-07 12:07:32', NULL),
+(18, 'medias/aLMiLDrgYfXVGvPPDjuOgo3Jep9jWxlT4lJdxAza.jpg', NULL, NULL, 12, '2025-12-07 22:29:03', '2025-12-07 22:29:03', NULL),
+(19, 'medias/gN7OULwxq9E7JS04HCwvGrK3aw08bCGttQLQ6YaP.jpg', NULL, NULL, 13, '2025-12-07 22:33:43', '2025-12-07 22:33:43', NULL),
+(20, 'medias/d3yUdTsoHpE2cxrlAwT8ndYtKjXnbukqyH2sGiIL.webp', NULL, NULL, 14, '2025-12-07 22:59:14', '2025-12-07 22:59:14', NULL),
+(21, 'medias/cGm0VisuBnHHfN9z3aLuyN2FZfk7VBiddY9RJGyg.webm', NULL, NULL, 15, '2025-12-07 23:12:44', '2025-12-07 23:16:38', '2025-12-07 23:16:38'),
+(22, 'medias/5jWkK7Zo8RKVDH3tMwSkfPm9ErzphDbyqQDmlwt8.webp', NULL, NULL, 15, '2025-12-07 23:14:28', '2025-12-07 23:16:30', '2025-12-07 23:16:30'),
+(23, 'medias/fmTprvRMmES9Dzn6Ko7FJHXDdbFRKohW0JqhwxSR.webp', NULL, NULL, 15, '2025-12-07 23:16:56', '2025-12-07 23:16:56', NULL),
+(24, 'medias/iDjtBwTohLV6uUKFBabvbMTV4IoBKITDT6I9No4o.webm', NULL, NULL, 15, '2025-12-07 23:17:12', '2025-12-07 23:17:12', NULL);
 
 -- --------------------------------------------------------
 
@@ -306,6 +337,18 @@ CREATE TABLE `paiements` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `paiements`
+--
+
+INSERT INTO `paiements` (`id_paiement`, `id_utilisateur`, `id_contenu`, `montant`, `devise`, `statut`, `methode_paiement`, `fedapay_transaction_id`, `fedapay_status`, `metadata`, `date_paiement`, `created_at`, `updated_at`) VALUES
+(1, 8, 11, 200.00, 'XOF', 'en_attente', NULL, NULL, NULL, NULL, NULL, '2025-12-07 12:27:23', '2025-12-07 12:27:23'),
+(2, 8, 11, 200.00, 'XOF', 'en_attente', NULL, '107898652', 'pending', NULL, NULL, '2025-12-07 12:35:57', '2025-12-07 12:36:00'),
+(3, 8, 11, 200.00, 'XOF', 'en_attente', NULL, '107898658', 'pending', NULL, NULL, '2025-12-07 12:36:43', '2025-12-07 12:36:45'),
+(4, 8, 11, 200.00, 'XOF', 'en_attente', NULL, '107898722', 'pending', NULL, NULL, '2025-12-07 12:42:05', '2025-12-07 12:42:07'),
+(5, 8, 11, 200.00, 'XOF', 'en_attente', NULL, '107898776', 'pending', NULL, NULL, '2025-12-07 12:45:07', '2025-12-07 12:45:18'),
+(6, 8, 11, 200.00, 'XOF', 'reussi', NULL, '385866', 'approved', NULL, '2025-12-07 13:14:14', '2025-12-07 13:13:31', '2025-12-07 13:14:14');
 
 -- --------------------------------------------------------
 
@@ -435,7 +478,9 @@ CREATE TABLE `type_contenus` (
 INSERT INTO `type_contenus` (`id_type`, `nom`, `created_at`, `updated_at`) VALUES
 (1, 'Articles culturels', NULL, NULL),
 (2, 'Histoire', '2025-11-24 09:02:55', '2025-11-24 09:02:55'),
-(3, 'Recette de cuisine', NULL, NULL);
+(3, 'Recette de cuisine', NULL, NULL),
+(4, 'Festival', '2025-12-06 16:26:14', '2025-12-06 16:26:14'),
+(5, 'Actualités', '2025-12-07 11:45:59', '2025-12-07 11:45:59');
 
 -- --------------------------------------------------------
 
@@ -509,13 +554,15 @@ CREATE TABLE `utilisateurs` (
 --
 
 INSERT INTO `utilisateurs` (`id_utilisateur`, `nom`, `prenom`, `email`, `email_verified_at`, `mot_de_passe`, `sexe`, `role`, `id_langue`, `date_inscription`, `date_naissance`, `statut`, `photo`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Trump', 'Donald', 'donald123@gmail.com\r\n', NULL, '$2y$12$6lZ2VZ53mxg/d2UfjbzGSuOq.NScVgXEPpjUWAb0mKJAF6UuQnQ3q', 'M', 2, 3, '2025-11-23 08:24:37', '2015-11-10', 'actif', NULL, NULL, NULL, '2025-11-25 05:09:47', NULL),
-(2, 'oke', 'hans', 'hansoke51@gmail.com', NULL, '$2y$12$c4kyR/je7R8R1tIPJTGFbO7VmSeRVeaxbLZ6Bpa.g93l0zRWm8jQC', 'M', 1, 5, '2025-11-25 06:08:15', '2015-11-03', 'actif', NULL, 'OnhrZK2It2iIyht3DBlW22IkmSofCVS3Tn1APqt2X17wfWbGcjaepCiTn4Wo', NULL, '2025-11-25 05:25:23', NULL),
-(3, 'meryl', 'oke', 'meyloke7@gmail.com', NULL, '$2y$12$bDd0/HwAhAco3qgg8omHa.VGK5INQ/8N/YpWlqnJ4Pbz3aYUXmO3i', NULL, 1, 1, '2025-11-25 06:15:52', NULL, 'actif', NULL, NULL, '2025-11-25 05:15:52', '2025-11-25 06:19:51', NULL),
-(4, '', 'oke', 'gbe@gmail.com', NULL, '$2y$12$hKCBRnUpgi1rH/k1sRPEpO/t3PRIJVlOdMxNKTzIu.gcLw1ET4Cpe', NULL, 1, 1, '2025-11-25 07:40:51', NULL, 'actif', NULL, NULL, '2025-11-25 06:40:51', '2025-11-25 06:40:51', NULL),
-(5, 'COMLAN', 'Maurice', 'maurice.comlan@uac.bj', NULL, '$2y$12$cqbqZmrCmGXXMqX6NotZSeBvz67cxnAxxEnxqJ0rCMpfVjvgAuyxe', NULL, 1, 1, '2025-11-25 08:09:19', NULL, 'actif', NULL, 'UZDUkMxKwBdVcPQ82UI8hyDLuq92sniYDaN7xwCziDwrQ2L5K0vpSHwg06cc', '2025-11-25 07:09:19', '2025-11-25 07:09:19', NULL),
-(6, 'rio', 'zach', 'scimentio2004@gmail.com', NULL, 'Rylo1750', NULL, 4, 6, '2025-11-25 11:35:21', '2025-11-04', 'actif', NULL, NULL, NULL, NULL, NULL),
-(7, 'OKE', 'Meryl', 'hansmeryl14@gmail.com', NULL, '$2y$12$UZXbhG9DANlnfW9SX3Myc.lOoE4GuD4FnX2PJNkhbS7pJgLUOQ9rS', NULL, 4, 4, '2025-11-25 23:09:20', '2006-11-12', 'actif', NULL, NULL, '2025-11-25 22:09:20', '2025-11-25 22:09:20', NULL);
+(1, 'Trump', 'Donald', 'donald123@gmail.com\r\n', '2025-12-07 12:15:57', '$2y$12$6lZ2VZ53mxg/d2UfjbzGSuOq.NScVgXEPpjUWAb0mKJAF6UuQnQ3q', 'M', 2, 3, '2025-11-23 08:24:37', '2015-11-10', 'actif', NULL, NULL, NULL, '2025-12-07 12:15:57', NULL),
+(2, 'oke', 'hans', 'hansoke51@gmail.com', '2025-12-07 09:59:12', '$2y$12$c4kyR/je7R8R1tIPJTGFbO7VmSeRVeaxbLZ6Bpa.g93l0zRWm8jQC', 'M', 1, 5, '2025-11-25 06:08:15', '2015-11-03', 'actif', 'profile-photos/lQuYXqAWcjs6Tm277ckAhqpbMmOk8njePZnSX8zO.jpg', 'TRXAMo9s8s1MbnUaYz1JEmjxErIfBzFEF41f37TB7PbgX2PrAabUQceKXHgF', NULL, '2025-12-07 10:00:43', NULL),
+(3, 'meryl', 'oke', 'meyloke7@gmail.com', '2025-12-07 12:15:57', '$2y$12$bDd0/HwAhAco3qgg8omHa.VGK5INQ/8N/YpWlqnJ4Pbz3aYUXmO3i', NULL, 1, 1, '2025-11-25 06:15:52', NULL, 'actif', NULL, NULL, '2025-11-25 05:15:52', '2025-12-07 12:15:57', NULL),
+(4, '', 'oke', 'gbe@gmail.com', '2025-12-07 12:15:57', '$2y$12$hKCBRnUpgi1rH/k1sRPEpO/t3PRIJVlOdMxNKTzIu.gcLw1ET4Cpe', NULL, 1, 1, '2025-11-25 07:40:51', NULL, 'actif', NULL, NULL, '2025-11-25 06:40:51', '2025-12-07 12:15:57', NULL),
+(5, 'COMLAN', 'Maurice', 'maurice.comlan@uac.bj', '2025-12-07 12:15:57', '$2y$12$cqbqZmrCmGXXMqX6NotZSeBvz67cxnAxxEnxqJ0rCMpfVjvgAuyxe', NULL, 1, 1, '2025-11-25 08:09:19', NULL, 'actif', NULL, 'UZDUkMxKwBdVcPQ82UI8hyDLuq92sniYDaN7xwCziDwrQ2L5K0vpSHwg06cc', '2025-11-25 07:09:19', '2025-12-07 12:15:57', NULL),
+(6, 'rio', 'zach', 'scimentio2004@gmail.com', '2025-12-07 12:15:57', 'Rylo1750', NULL, 4, 6, '2025-11-25 11:35:21', '2025-11-04', 'actif', NULL, NULL, NULL, '2025-12-07 12:15:57', NULL),
+(7, 'OKE', 'Meryl', 'hansmeryl14@gmail.com', NULL, '$2y$12$UZXbhG9DANlnfW9SX3Myc.lOoE4GuD4FnX2PJNkhbS7pJgLUOQ9rS', NULL, 4, 4, '2025-11-25 23:09:20', '2006-11-12', 'actif', NULL, NULL, '2025-11-25 22:09:20', '2025-12-06 15:32:35', '2025-12-06 15:32:35'),
+(8, '', 'hess', 'hess51@gmail.com', '2025-12-07 12:15:57', '$2y$12$k6YCOCjE8OU1sPy/WaVXy.Er.jTgoAM1P.A7tdZRBUti1eB6qWrcO', NULL, 1, 1, '2025-12-06 16:00:26', NULL, 'actif', NULL, NULL, '2025-12-06 15:00:26', '2025-12-07 12:15:57', NULL),
+(10, '', 'hansmeryl', 'merylgbe@gmail.com', '2025-12-07 12:15:57', '$2y$12$Hr220dkXa8oZBJgumJTOueen.ZbssyW0uilSEamkAZKMGDlkVrEZu', NULL, 1, 1, '2025-12-06 16:43:41', NULL, 'actif', NULL, NULL, '2025-12-06 15:43:41', '2025-12-07 12:15:57', NULL);
 
 --
 -- Index pour les tables déchargées
@@ -680,19 +727,19 @@ ALTER TABLE `utilisateurs`
 -- AUTO_INCREMENT pour la table `achats_contenus`
 --
 ALTER TABLE `achats_contenus`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `commentaires`
 --
 ALTER TABLE `commentaires`
-  MODIFY `id_commentaire` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_commentaire` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `contenus`
 --
 ALTER TABLE `contenus`
-  MODIFY `id_contenu` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_contenu` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT pour la table `failed_jobs`
@@ -716,7 +763,7 @@ ALTER TABLE `langues`
 -- AUTO_INCREMENT pour la table `medias`
 --
 ALTER TABLE `medias`
-  MODIFY `id_media` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_media` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT pour la table `migrations`
@@ -728,7 +775,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT pour la table `paiements`
 --
 ALTER TABLE `paiements`
-  MODIFY `id_paiement` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_paiement` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `regions`
@@ -746,7 +793,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT pour la table `type_contenus`
 --
 ALTER TABLE `type_contenus`
-  MODIFY `id_type` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_type` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `type_media`
@@ -764,7 +811,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `utilisateurs`
 --
 ALTER TABLE `utilisateurs`
-  MODIFY `id_utilisateur` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_utilisateur` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Contraintes pour les tables déchargées
