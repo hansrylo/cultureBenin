@@ -19,11 +19,19 @@ class HomeController extends Controller
         // Récupérer les médias du contenu vedette (jusqu'à 3)
         $featuredMedias = $featured && $featured->medias ? $featured->medias->take(3) : collect();
         
-        // Tous les contenus pour les autres sections
-        $contenus = Contenu::with(['type', 'medias'])
-            ->where('statut', 'validé')
-            ->latest('date_creation')
-            ->get();
+        // Tous les contenus pour les autres sections (avec recherche si présent)
+        $query = Contenu::with(['type', 'medias'])
+            ->where('statut', 'validé');
+
+        if (request()->has('search') && request('search')) {
+            $search = request('search');
+            $query->where(function($q) use ($search) {
+                $q->where('titre', 'like', "%{$search}%")
+                  ->orWhere('texte', 'like', "%{$search}%");
+            });
+        }
+
+        $contenus = $query->latest('date_creation')->get();
             
         // Festivals pour l'agenda
         $festivals = Contenu::with(['type', 'medias', 'region'])

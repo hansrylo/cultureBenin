@@ -172,6 +172,22 @@
             @endif
         </div>
 
+        <!-- Search Bar -->
+        <div class="container" style="position: relative; z-index: 20; margin-top: -30px;">
+            <div style="background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 800px; margin: 0 auto; display: flex; gap: 1rem; align-items: center;">
+                <form action="{{ route('Home') }}" method="GET" style="display: flex; flex: 1; align-items: center; gap: 1rem; width: 100%;">
+                    <i class="bi bi-search" style="font-size: 1.2rem; color: #999;"></i>
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Rechercher un article, un événement..." style="border: none; outline: none; flex: 1; font-size: 1rem; font-family: 'Outfit', sans-serif;">
+                    <button type="submit" style="background: var(--color-accent-1); color: white; border: none; padding: 0.8rem 2rem; border-radius: 10px; font-weight: 700; cursor: pointer; transition: background 0.3s ease;" onmouseover="this.style.background='var(--color-accent-2)'" onmouseout="this.style.background='var(--color-accent-1)'">
+                        Rechercher
+                    </button>
+                    @if(request('search'))
+                        <a href="{{ route('Home') }}" style="color: #666; text-decoration: none; font-size: 0.9rem;">Réinitialiser</a>
+                    @endif
+                </form>
+            </div>
+        </div>
+
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const slides = document.querySelectorAll('.hero-slide');
@@ -281,8 +297,7 @@
                                     <div style="position: absolute; top: 1rem; left: 1rem; background-color: #FCD116; color: var(--color-accent-1); padding: 0.4rem 1rem; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; box-shadow: 3px 3px 0px rgba(0,43,106,0.3);">
                                         {{ $contenu->type ? $contenu->type->nom : 'ARTICLE' }}
                                     </div>
-                                    <!-- Gradient overlay on hover -->
-                                    <div style="position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 100%); opacity: 0; transition: opacity 0.3s ease;" class="card-overlay"></div>
+
                                 </div>
                                 <div class="card-body" style="flex: 1; display: flex; flex-direction: column;">
                                     <h3 class="card-title" style="line-height: 1.3; font-size: 1.1rem; margin-bottom: 0.75rem;">
