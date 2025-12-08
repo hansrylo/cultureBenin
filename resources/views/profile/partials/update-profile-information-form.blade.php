@@ -22,7 +22,7 @@
             
             @if($user->photo)
                 <div class="mt-2 mb-4">
-                    <img src="{{ asset('storage/' . $user->photo) }}" alt="Profile Photo" class="w-20 h-20 rounded-full object-cover">
+                    <img src="{{ \Storage::url($user->photo) }}" alt="Profile Photo" class="w-20 h-20 rounded-full object-cover">
                 </div>
             @endif
 

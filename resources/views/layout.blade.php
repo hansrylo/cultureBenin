@@ -246,7 +246,7 @@
             <li class="nav-item dropdown user-menu">
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 @if(Auth::user()->photo)
-                    <img src="{{ asset('storage/' . Auth::user()->photo) }}" class="user-image rounded-circle shadow" alt="User Image" style="object-fit: cover;">
+                    <img src="{{ \Storage::url(Auth::user()->photo) }}" class="user-image rounded-circle shadow" alt="User Image" style="object-fit: cover;">
                 @else
                     <img src="{{URL::asset('adminlte/img/user2-160x160.jpg')}}" class="user-image rounded-circle shadow" alt="User Image">
                 @endif
@@ -256,7 +256,7 @@
                 <!--begin::User Image-->
                 <li class="user-header text-bg-primary">
                     @if(Auth::user()->photo)
-                        <img src="{{ asset('storage/' . Auth::user()->photo) }}" class="rounded-circle shadow" alt="User Image" style="object-fit: cover;">
+                        <img src="{{ \Storage::url(Auth::user()->photo) }}" class="rounded-circle shadow" alt="User Image" style="object-fit: cover;">
                     @else
                         <img src="{{URL::asset('adminlte/img/user2-160x160.jpg')}}" class="rounded-circle shadow" alt="User Image">
                     @endif

@@ -81,10 +81,10 @@
                     <div style="position: absolute; inset: 0; z-index: -1; filter: blur(60px) saturate(2); animation: ambient-glow-entry 1.5s ease-out forwards, ambient-pulse 5s ease-in-out infinite 1.5s; opacity: 0.8; transform: scale(1.15);">
                         @if($isVideo)
                             <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                                <source src="{{ asset('storage/' . $firstMedia->chemin) }}" type="video/{{ $extension }}">
+                                <source src="{{ \Storage::url($firstMedia->chemin) }}" type="video/{{ $extension }}">
                             </video>
                         @else
-                            <img src="{{ asset('storage/' . $firstMedia->chemin) }}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="{{ \Storage::url($firstMedia->chemin) }}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
                         @endif
                     </div>
 
@@ -92,11 +92,11 @@
                     <div style="width: 100%; height: 500px; border-radius: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); position: relative; z-index: 2; background: #000;">
                         @if($isVideo)
                             <video controls style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
-                                <source src="{{ asset('storage/' . $firstMedia->chemin) }}" type="video/{{ $extension }}">
+                                <source src="{{ \Storage::url($firstMedia->chemin) }}" type="video/{{ $extension }}">
                                 Votre navigateur ne supporte pas la lecture de vidéos.
                             </video>
                         @else
-                            <img src="{{ asset('storage/' . $firstMedia->chemin) }}" alt="{{ $contenu->titre }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
+                            <img src="{{ \Storage::url($firstMedia->chemin) }}" alt="{{ $contenu->titre }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
                         @endif
                     </div>
                 </div>
@@ -204,7 +204,7 @@
                         <div class="gallery-item" style="position: relative; height: 250px; border-radius: 12px; overflow: hidden; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onclick="{{ $isPdf ? '' : ($isVid ? '' : 'openLightbox(this)') }}">
                             @if($isVid)
                                 <video controls style="width: 100%; height: 100%; object-fit: cover;">
-                                    <source src="{{ asset('storage/' . $media->chemin) }}" type="video/{{ $ext }}">
+                                    <source src="{{ \Storage::url($media->chemin) }}" type="video/{{ $ext }}">
                                 </video>
                                 <div style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem;">
                                     <i class="bi bi-play-fill"></i> Vidéo
@@ -213,12 +213,12 @@
                                 <div style="width: 100%; height: 100%; background: #f0f0f0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding: 1rem; text-align: center;">
                                     <i class="bi bi-file-earmark-pdf-fill" style="font-size: 3rem; color: #dc3545;"></i>
                                     <span style="font-size: 0.9rem; font-weight: 600;">Document PDF</span>
-                                    <a href="{{ asset('storage/' . $media->chemin) }}" target="_blank" class="btn btn-sm" style="background: var(--color-accent-1); color: white; padding: 0.5rem 1rem; border-radius: 20px; text-decoration: none; font-size: 0.8rem;">
+                                    <a href="{{ \Storage::url($media->chemin) }}" target="_blank" class="btn btn-sm" style="background: var(--color-accent-1); color: white; padding: 0.5rem 1rem; border-radius: 20px; text-decoration: none; font-size: 0.8rem;">
                                         Voir le document
                                     </a>
                                 </div>
                             @else
-                                <img src="{{ asset('storage/' . $media->chemin) }}" alt="Galerie image" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" class="gallery-img">
+                                <img src="{{ \Storage::url($media->chemin) }}" alt="Galerie image" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" class="gallery-img">
                                 <div class="overlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center;">
                                     <i class="bi bi-zoom-in" style="color: white; font-size: 2rem;"></i>
                                 </div>
@@ -247,7 +247,7 @@
                         $isImg = !in_array(strtolower($ext), ['mp4', 'webm', 'avi', 'mov', 'pdf']);
                     @endphp
                     @if($isImg)
-                        "{{ asset('storage/' . $media->chemin) }}",
+                        "{{ \Storage::url($media->chemin) }}",
                     @endif
                 @endforeach
             ];
@@ -398,7 +398,7 @@
                         <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: transform 0.3s ease;">
                             <div style="height: 200px; overflow: hidden;">
                                 @if($recent->medias && $recent->medias->count() > 0)
-                                    <img src="{{ asset('storage/' . $recent->medias->first()->chemin) }}" alt="{{ $recent->titre }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                    <img src="{{ \Storage::url($recent->medias->first()->chemin) }}" alt="{{ $recent->titre }}" style="width: 100%; height: 100%; object-fit: cover;">
                                 @else
                                     <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #eee 0%, #ddd 100%);"></div>
                                 @endif

@@ -24,7 +24,7 @@
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                             @if(Auth::user()->photo)
-                                <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="{{ Auth::user()->name }}" class="h-8 w-8 rounded-full object-cover me-2">
+                                <img src="{{ \Storage::url(Auth::user()->photo) }}" alt="{{ Auth::user()->name }}" class="h-8 w-8 rounded-full object-cover me-2">
                             @endif
                             <div>{{ Auth::user()->name }}</div>
 
@@ -80,7 +80,7 @@
             <div class="px-4 flex items-center">
                 @if(Auth::user()->photo)
                     <div class="shrink-0 me-3">
-                        <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="{{ Auth::user()->name }}" class="h-10 w-10 rounded-full object-cover">
+                        <img src="{{ \Storage::url(Auth::user()->photo) }}" alt="{{ Auth::user()->name }}" class="h-10 w-10 rounded-full object-cover">
                     </div>
                 @endif
                 <div>

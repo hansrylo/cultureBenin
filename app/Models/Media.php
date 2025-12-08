@@ -33,4 +33,9 @@ class Media extends Model
     {
         return $this->belongsTo(Contenu::class, 'id_contenu', 'id_contenu');
     }
+
+    public function getUrlAttribute()
+    {
+        return \Illuminate\Support\Facades\Storage::url($this->chemin);
+    }
 }

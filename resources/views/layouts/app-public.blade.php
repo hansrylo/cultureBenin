@@ -527,7 +527,7 @@
                             <button id="userMenuBtn" style="background: white; color: var(--color-contrast); padding: 0.5rem 0.5rem 0.5rem 1rem; border-radius: 50px; font-weight: 600; border: 1px solid rgba(0,0,0,0.08); cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 0.8rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
                                 <span style="font-size: 0.9rem;">{{ Auth::user()->prenom }}</span>
                                 @if(Auth::user()->photo)
-                                    <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Profile" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                    <img src="{{ \Storage::url(Auth::user()->photo) }}" alt="Profile" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
                                 @else
                                     <div style="width: 35px; height: 35px; background: var(--color-accent-1); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
                                         <i class="bi bi-person-fill"></i>
@@ -540,7 +540,7 @@
                                 <div style="background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.12); overflow: hidden; border: 1px solid rgba(0,0,0,0.05);">
                                     <div style="padding: 1.5rem; background: linear-gradient(135deg, var(--color-accent-1) 0%, var(--color-accent-2) 100%); color: white; text-align: center;">
                                         @if(Auth::user()->photo)
-                                            <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Profile" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255,255,255,0.3); margin-bottom: 0.5rem;">
+                                            <img src="{{ \Storage::url(Auth::user()->photo) }}" alt="Profile" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255,255,255,0.3); margin-bottom: 0.5rem;">
                                         @else
                                             <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.2); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem; font-size: 1.5rem;">
                                                 <i class="bi bi-person-fill"></i>

@@ -105,7 +105,7 @@
                             <!-- Left: Image -->
                             <div style="flex: 2.5; position: relative; height: 100%; border-radius: 20px; overflow: hidden; box-shadow: 8px 8px 0px var(--color-accent-1);">
                                 @if($contenu->medias && $contenu->medias->count() > 0)
-                                    <div style="width: 100%; height: 100%; background-image: url('{{ asset('storage/' . $contenu->medias->first()->chemin) }}'); background-size: cover; background-position: center;"></div>
+                                    <div style="width: 100%; height: 100%; background-image: url('{{ \Storage::url($contenu->medias->first()->chemin) }}'); background-size: cover; background-position: center;"></div>
                                 @else
                                     <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #009E60 0%, #00C878 100%);"></div>
                                 @endif
@@ -272,7 +272,7 @@
                             <article class="card" style="height: 100%; display: flex; flex-direction: column;">
                                 <div style="height: 200px; overflow: hidden; position: relative;">
                                     @if($contenu->medias && $contenu->medias->count() > 0)
-                                        <img src="{{ asset('storage/' . $contenu->medias->first()->chemin) }}" alt="{{ $contenu->titre }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" class="hover:scale-110">
+                                        <img src="{{ \Storage::url($contenu->medias->first()->chemin) }}" alt="{{ $contenu->titre }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;" class="hover:scale-110">
                                     @else
                                         <div style="width: 100%; height: 100%; background: linear-gradient(135deg, var(--color-accent-2) 0%, var(--color-accent-1) 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
                                             📰
@@ -333,7 +333,7 @@
                         <div class="card hover-lift" style="display: flex; flex-direction: column;">
                             <div style="position: relative; height: 200px; overflow: hidden;">
                                 @if($festival->medias && $festival->medias->count() > 0)
-                                    <div style="background-image: url('{{ asset('storage/' . $festival->medias->first()->chemin) }}'); background-size: cover; background-position: center; width: 100%; height: 100%; transition: transform 0.5s ease;" class="hover:scale-110"></div>
+                                    <div style="background-image: url('{{ \Storage::url($festival->medias->first()->chemin) }}'); background-size: cover; background-position: center; width: 100%; height: 100%; transition: transform 0.5s ease;" class="hover:scale-110"></div>
                                 @else
                                     <div style="background: linear-gradient(135deg, #FF6B6B 0%, #EE5253 100%); width: 100%; height: 100%;"></div>
                                 @endif

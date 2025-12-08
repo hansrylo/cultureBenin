@@ -14,7 +14,7 @@
                         <div class="card hover-lift" style="border: none; box-shadow: none;">
                             <div style="height: 180px; border-radius: 12px; overflow: hidden; position: relative; margin-bottom: 1rem;">
                                 @if($actu->medias && $actu->medias->count() > 0)
-                                    <img src="{{ asset('storage/' . $actu->medias->first()->chemin) }}" alt="{{ $actu->titre }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" class="hover:scale-110">
+                                    <img src="{{ \Storage::url($actu->medias->first()->chemin) }}" alt="{{ $actu->titre }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" class="hover:scale-110">
                                 @else
                                     <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);"></div>
                                 @endif

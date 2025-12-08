@@ -24,7 +24,7 @@
                             <!-- Image -->
                             <div style="width: 120px; height: 80px; border-radius: 10px; overflow: hidden; flex-shrink: 0;">
                                 @if($achat->contenu->medias && $achat->contenu->medias->count() > 0)
-                                    <img src="{{ asset('storage/' . $achat->contenu->medias->first()->chemin) }}" alt="{{ $achat->contenu->titre }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                    <img src="{{ \Storage::url($achat->contenu->medias->first()->chemin) }}" alt="{{ $achat->contenu->titre }}" style="width: 100%; height: 100%; object-fit: cover;">
                                 @else
                                     <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #eee 0%, #ddd 100%);"></div>
                                 @endif

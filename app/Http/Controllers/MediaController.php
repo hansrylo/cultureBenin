@@ -36,7 +36,7 @@ class MediaController extends Controller
             'description' => 'nullable|string|max:500',
         ]);
 
-        // Upload du fichier
+        // Upload du fichier vers le stockage public (Volume Railway)
         $path = $request->file('fichier')->store('medias', 'public');
 
         // Création du média
@@ -85,7 +85,7 @@ class MediaController extends Controller
     {
         $mediaModel = Media::findOrFail($media);
         
-        // Supprimer le fichier du storage
+        // Supprimer le fichier du storage public
         if ($mediaModel->chemin && \Storage::disk('public')->exists($mediaModel->chemin)) {
             \Storage::disk('public')->delete($mediaModel->chemin);
         }
