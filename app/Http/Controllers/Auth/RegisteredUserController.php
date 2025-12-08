@@ -71,6 +71,6 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         // Rediriger vers la page d'accueil après inscription
-        return redirect()->route('verification.notice');
+        return redirect()->route('Home');
     }
 }

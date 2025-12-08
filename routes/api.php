@@ -10,4 +10,3 @@ use App\Http\Controllers\Api\MediaUploadController;
 */
 
 // Media migration endpoint (protected by token)
-Route::post('/media/upload', [MediaUploadController::class, 'upload']);
