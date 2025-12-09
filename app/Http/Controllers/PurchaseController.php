@@ -12,7 +12,6 @@ class PurchaseController extends Controller
     
     public function __construct(ContentPurchaseService $purchaseService)
     {
-        $this->middleware('auth');
         $this->purchaseService = $purchaseService;
     }
     

@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('Home');
 Route::get('/article/{id}', [HomeController::class, 'show'])->name('contenu.public.show');
 
+// API de recherche
+Route::get('/api/search', [App\Http\Controllers\SearchController::class, 'search'])->name('api.search');
+
 // Route de test pour vérifier la connexion à la base de données
 Route::get('/test-db', function() {
     try {

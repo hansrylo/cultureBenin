@@ -499,26 +499,288 @@
                     </div>
                 </a>
                 
-                <!-- Search Bar - Centered -->
-                <div style="flex: 1; max-width: 500px; margin: 0 2rem;">
-                    <form action="{{ route('Home') }}" method="GET" style="position: relative; width: 100%;">
+                <!-- Search Bar - Centered with Suggestions -->
+                <div style="flex: 1; max-width: 500px; margin: 0 2rem; position: relative;">
+                    <form id="searchForm" action="{{ route('Home') }}" method="GET" style="position: relative; width: 100%;">
                         <div style="position: relative; display: flex; align-items: center;">
-                            <i class="bi bi-search" style="position: absolute; left: 1.2rem; color: #9CA3AF; font-size: 1rem;"></i>
+                            <i class="bi bi-search" style="position: absolute; left: 1.2rem; color: #9CA3AF; font-size: 1rem; z-index: 2;"></i>
                             <input
                                 type="text"
+                                id="searchInput"
                                 name="search"
                                 placeholder="Rechercher un article, une région..."
                                 value="{{ request('search') }}"
+                                autocomplete="off"
                                 style="width: 100%; padding: 0.8rem 1rem 0.8rem 3rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 50px; background: rgba(0,0,0,0.03); color: var(--color-contrast); font-size: 0.95rem; transition: all 0.3s ease; font-family: var(--font-secondary);"
-                                onfocus="this.style.background='white'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.08)'; this.style.borderColor='var(--color-accent-2)';"
-                                onblur="this.style.background='rgba(0,0,0,0.03)'; this.style.boxShadow='none'; this.style.borderColor='rgba(0,0,0,0.1)';"
                             >
-                            <button type="submit" style="position: absolute; right: 0.5rem; background: var(--color-accent-1); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s ease;">
+                            <button type="submit" style="position: absolute; right: 0.5rem; background: var(--color-accent-1); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s ease; z-index: 2;">
                                 <i class="bi bi-arrow-right"></i>
                             </button>
+                            
+                            <!-- Loading Indicator -->
+                            <div id="searchLoading" style="position: absolute; right: 3.5rem; display: none; z-index: 2;">
+                                <div style="width: 16px; height: 16px; border: 2px solid var(--color-accent-2); border-top-color: transparent; border-radius: 50%; animation: spin 0.6s linear infinite;"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Search Suggestions Dropdown -->
+                        <div id="searchSuggestions" style="position: absolute; top: calc(100% + 0.5rem); left: 0; right: 0; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); max-height: 500px; overflow-y: auto; display: none; z-index: 1000; backdrop-filter: blur(20px); border: 1px solid rgba(0,0,0,0.08);">
+                            <div id="suggestionsContent" style="padding: 0.5rem;"></div>
                         </div>
                     </form>
                 </div>
+                
+                <style>
+                    @keyframes spin {
+                        to { transform: rotate(360deg); }
+                    }
+                    
+                    #searchInput:focus {
+                        background: white !important;
+                        box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
+                        border-color: var(--color-accent-2) !important;
+                        outline: none;
+                    }
+                    
+                    #searchInput:not(:focus) {
+                        background: rgba(0,0,0,0.03);
+                        box-shadow: none;
+                        border-color: rgba(0,0,0,0.1);
+                    }
+                    
+                    .search-result-item {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        padding: 0.75rem 1rem;
+                        border-radius: 10px;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                        text-decoration: none;
+                        color: var(--color-contrast);
+                    }
+                    
+                    .search-result-item:hover {
+                        background: linear-gradient(135deg, rgba(0, 158, 96, 0.08), rgba(0, 200, 120, 0.08));
+                        transform: translateX(4px);
+                    }
+                    
+                    .search-category-title {
+                        font-size: 0.75rem;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                        color: var(--color-accent-2);
+                        padding: 0.75rem 1rem 0.5rem;
+                        margin-top: 0.5rem;
+                    }
+                    
+                    .search-category-title:first-child {
+                        margin-top: 0;
+                    }
+                    
+                    .search-result-icon {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 8px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.2rem;
+                        flex-shrink: 0;
+                    }
+                    
+                    .search-result-text {
+                        flex: 1;
+                    }
+                    
+                    .search-result-title {
+                        font-weight: 600;
+                        font-size: 0.95rem;
+                        margin-bottom: 0.1rem;
+                    }
+                    
+                    .search-result-type {
+                        font-size: 0.8rem;
+                        color: #6B7280;
+                    }
+                    
+                    .search-no-results {
+                        padding: 2rem;
+                        text-align: center;
+                        color: #6B7280;
+                    }
+                    
+                    #searchSuggestions::-webkit-scrollbar {
+                        width: 6px;
+                    }
+                    
+                    #searchSuggestions::-webkit-scrollbar-track {
+                        background: transparent;
+                    }
+                    
+                    #searchSuggestions::-webkit-scrollbar-thumb {
+                        background: rgba(0, 158, 96, 0.3);
+                        border-radius: 3px;
+                    }
+                    
+                    #searchSuggestions::-webkit-scrollbar-thumb:hover {
+                        background: rgba(0, 158, 96, 0.5);
+                    }
+                </style>
+                
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const searchInput = document.getElementById('searchInput');
+                        const searchSuggestions = document.getElementById('searchSuggestions');
+                        const suggestionsContent = document.getElementById('suggestionsContent');
+                        const searchLoading = document.getElementById('searchLoading');
+                        const searchForm = document.getElementById('searchForm');
+                        
+                        let searchTimeout;
+                        let currentRequest;
+                        
+                        // Debounced search function
+                        function performSearch(query) {
+                            // Clear previous timeout
+                            clearTimeout(searchTimeout);
+                            
+                            // Hide suggestions if query is too short
+                            if (query.length < 2) {
+                                searchSuggestions.style.display = 'none';
+                                return;
+                            }
+                            
+                            // Show loading indicator
+                            searchLoading.style.display = 'block';
+                            
+                            // Debounce: wait 300ms before searching
+                            searchTimeout = setTimeout(() => {
+                                // Cancel previous request if exists
+                                if (currentRequest) {
+                                    currentRequest.abort();
+                                }
+                                
+                                // Create new request
+                                currentRequest = new XMLHttpRequest();
+                                currentRequest.open('GET', '{{ route("api.search") }}?q=' + encodeURIComponent(query), true);
+                                
+                                currentRequest.onload = function() {
+                                    searchLoading.style.display = 'none';
+                                    
+                                    if (this.status === 200) {
+                                        const data = JSON.parse(this.responseText);
+                                        displayResults(data);
+                                    }
+                                };
+                                
+                                currentRequest.onerror = function() {
+                                    searchLoading.style.display = 'none';
+                                };
+                                
+                                currentRequest.send();
+                            }, 300);
+                        }
+                        
+                        // Display search results
+                        function displayResults(data) {
+                            if (data.total === 0) {
+                                suggestionsContent.innerHTML = `
+                                    <div class="search-no-results">
+                                        <i class="bi bi-search" style="font-size: 2rem; color: #D1D5DB; margin-bottom: 0.5rem;"></i>
+                                        <p style="margin: 0;">Aucun résultat pour "${data.query}"</p>
+                                    </div>
+                                `;
+                                searchSuggestions.style.display = 'block';
+                                return;
+                            }
+                            
+                            let html = '';
+                            
+                            // Display contenus
+                            if (data.contenus.length > 0) {
+                                html += '<div class="search-category-title"><i class="bi bi-file-text"></i> Articles</div>';
+                                data.contenus.forEach(item => {
+                                    html += `
+                                        <a href="${item.url}" class="search-result-item">
+                                            <div class="search-result-icon" style="background: linear-gradient(135deg, #002B6A, #007FE6);">
+                                                <i class="bi bi-file-text-fill" style="color: white;"></i>
+                                            </div>
+                                            <div class="search-result-text">
+                                                <div class="search-result-title">${item.title}</div>
+                                                <div class="search-result-type">${item.type}</div>
+                                            </div>
+                                        </a>
+                                    `;
+                                });
+                            }
+                            
+                            // Display regions
+                            if (data.regions.length > 0) {
+                                html += '<div class="search-category-title"><i class="bi bi-geo-alt"></i> Régions</div>';
+                                data.regions.forEach(item => {
+                                    html += `
+                                        <a href="${item.url}" class="search-result-item">
+                                            <div class="search-result-icon" style="background: linear-gradient(135deg, #009E60, #00C878);">
+                                                <i class="bi bi-geo-alt-fill" style="color: white;"></i>
+                                            </div>
+                                            <div class="search-result-text">
+                                                <div class="search-result-title">${item.title}</div>
+                                                <div class="search-result-type">Région</div>
+                                            </div>
+                                        </a>
+                                    `;
+                                });
+                            }
+                            
+                            // Display langues
+                            if (data.langues.length > 0) {
+                                html += '<div class="search-category-title"><i class="bi bi-translate"></i> Langues</div>';
+                                data.langues.forEach(item => {
+                                    html += `
+                                        <a href="${item.url}" class="search-result-item">
+                                            <div class="search-result-icon" style="background: linear-gradient(135deg, #E8112D, #FF4458);">
+                                                <i class="bi bi-translate" style="color: white;"></i>
+                                            </div>
+                                            <div class="search-result-text">
+                                                <div class="search-result-title">${item.title}</div>
+                                                <div class="search-result-type">Langue</div>
+                                            </div>
+                                        </a>
+                                    `;
+                                });
+                            }
+                            
+                            suggestionsContent.innerHTML = html;
+                            searchSuggestions.style.display = 'block';
+                        }
+                        
+                        // Event listeners
+                        searchInput.addEventListener('input', function() {
+                            performSearch(this.value.trim());
+                        });
+                        
+                        searchInput.addEventListener('focus', function() {
+                            if (this.value.trim().length >= 2) {
+                                performSearch(this.value.trim());
+                            }
+                        });
+                        
+                        // Close suggestions when clicking outside
+                        document.addEventListener('click', function(e) {
+                            if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
+                                searchSuggestions.style.display = 'none';
+                            }
+                        });
+                        
+                        // Prevent form submission when clicking suggestions
+                        searchSuggestions.addEventListener('click', function(e) {
+                            if (e.target.closest('.search-result-item')) {
+                                searchSuggestions.style.display = 'none';
+                            }
+                        });
+                    });
+                </script>
                 
                 <!-- Action Buttons -->
                 <div style="display: flex; align-items: center; gap: 1rem; flex-shrink: 0;">
